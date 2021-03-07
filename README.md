@@ -6,7 +6,7 @@ Simple WiFi NTP desktop clock with large 7 segment display. Built on Raspberry P
 * [Raspberry PI Zero with WiFi and GPIO Headers](https://www.raspberrypi.org/products/raspberry-pi-zero/)
 * [Adafruit 1.2" 7-Segment Display with I2C Backpack](https://www.adafruit.com/product/1270)
 * Breadboard Wires
-* [RTC Pi Hat](https://www.abelectronics.co.uk/p/70/rtc-pi)
+* Optional [RTC Pi Hat](https://www.abelectronics.co.uk/p/70/rtc-pi)
 * USB power supply and cable
 
 ## Building the hardware
