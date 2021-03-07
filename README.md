@@ -1,6 +1,6 @@
 # Raspberry PI Zero WiFi-NTP/RTC Desktop Clock
 
-This is a simple desktop clock build with Raspberry PI. It synchronizes time using NTP over WiFi and optionally RTC HAT. For display it uses a large 7 segment display. No soldering required(*).
+Simple WiFi NTP desktop clock with large 7 segment display. Built on Raspberry PI Zero.
 
 ## Hardware BOM
 * [Raspberry PI Zero with WiFi and GPIO Headers](https://www.raspberrypi.org/products/raspberry-pi-zero/)
