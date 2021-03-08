@@ -1,8 +1,8 @@
 [Unit]
-Description=BigSeg7x4_Clock
+Description=rpiclock
 
 [Service]
-ExecStart=/home/pi/BigSeg7x4_clock.py
+ExecStart=/home/pi/rpiclock.py
 User=pi
 
 [Install]
