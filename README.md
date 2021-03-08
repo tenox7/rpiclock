@@ -99,5 +99,10 @@ $ sudo systemctl start BigSeg7x4_clock.service
 * [Adafruit Wiring and Setup](https://learn.adafruit.com/adafruit-led-backpack/python-wiring-and-setup-d74df15e-c55c-487a-acce-a905497ef9db)
 * [RTC Pi setup on RPI OS](https://www.abelectronics.co.uk/kb/article/30/rtc-pi-on-a-raspberry-pi-raspbian-jessie)
 
-## Copyright
+## Legal
+
+This is not an officially supported Google product.
+
+```
 Copyright 2021 Google LLC
+```
