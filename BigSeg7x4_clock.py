@@ -27,29 +27,6 @@ tl = False  # top left dot
 co = False  # seconds colon
 ap = False  # am/pm indicator
 br = 0.50   # brightness
-ip = ""
-
-def bye(a=0,b=0):
-        dispip()
-        quit()
-
-def getip():
-        try:
-                s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-                s.connect(("1.1.1.1", 1))
-                ip = s.getsockname()[0].split('.')[3]
-                s.close()
-                return ip
-        except:
-                return 0
-
-def dispip():
-        display.bottom_left_dot = True
-        display.top_left_dot = False
-        display.ampm = False
-        display.brightness = 1
-        display.colon = False
-        display.print('{:4}'.format(getip()))
 
 def update():
         global ti,bl,tl,co,ap,br
@@ -102,11 +79,6 @@ def tick():
         update()
 
 
-dispip()
-time.sleep(5)
-atexit.register(bye)
-signal.signal(signal.SIGTERM, bye)
-signal.signal(signal.SIGINT, bye)
 sched.add_job(tick, 'interval', seconds=1)
 sched.add_job(ntp, 'interval', seconds=10)
 sched.add_job(hourly, 'cron', minute=0, second=0)
