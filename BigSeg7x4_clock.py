@@ -13,12 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# apt install ntp ntpstat python3-pip
-# pip3 install adafruit-circuitpython-ht16k33 apscheduler
-import time, datetime, atexit, signal, subprocess, board, socket
+# apt install ntp python3-pip
+# pip3 install adafruit-circuitpython-ht16k33 apscheduler ntplib
+import time, datetime, board, socket, ntplib
 from apscheduler.schedulers.blocking import BlockingScheduler
 from adafruit_ht16k33.segments import BigSeg7x4
 
+ntpc = ntplib.NTPClient()
 sched = BlockingScheduler()
 display = BigSeg7x4(board.I2C())
 ti = "    " # time
@@ -38,20 +39,18 @@ def update():
         display.brightness = br
         display.colon = co
 
-def ntp():
+def ntpstat():
         global bl
 
-        ntp = subprocess.Popen('ntpstat', stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, shell=False)
-        out = ntp.communicate()[0].decode()
-
-        if ntp.returncode != 0:
+        try:
+                r = ntpc.request('127.0.0.1', version=3)
+                if r.leap == 0:
+                        bl = True
+                else:
+                        bl = False
+        except:
                 bl = False
-                return
 
-        if 'NTP server' in out:
-                bl = True
-        else:
-                bl = False
 
 def hourly():
         global tl,br
@@ -80,7 +79,7 @@ def tick():
 
 
 sched.add_job(tick, 'interval', seconds=1)
-sched.add_job(ntp, 'interval', seconds=10)
+sched.add_job(ntpstat, 'interval', seconds=10)
 sched.add_job(hourly, 'cron', minute=0, second=0)
 hourly() # run once to set right am/pm and brightness from start
 sched.start()
