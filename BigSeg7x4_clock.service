@@ -1,0 +1,9 @@
+[Unit]
+Description=BigSeg7x4_Clock
+
+[Service]
+ExecStart=/home/pi/BigSeg7x4_clock.py
+User=pi
+
+[Install]
+WantedBy=default.target
