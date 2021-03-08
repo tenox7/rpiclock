@@ -79,7 +79,7 @@ def tick():
 
 
 sched.add_job(tick, 'interval', seconds=1)
-sched.add_job(ntpstat, 'interval', seconds=10)
+sched.add_job(ntpstat, 'interval', seconds=60)
 sched.add_job(hourly, 'cron', minute=0, second=0)
 hourly() # run once to set right am/pm and brightness from start
 sched.start()
