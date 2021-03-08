@@ -85,6 +85,16 @@ $ sudo pip3 install adafruit-circuitpython-ht16k33 apscheduler
 
 ### Clock Service
 
+Move .py in to location you want, it can run from /home/pi or /usr/local/bin, etc.
+
+Move .service in to `/etc/systemd/system`
+
+```shell
+$ sudo systemctl daemon-reload
+$ sudo systemctl enable BigSeg7x4_clock.service 
+$ sudo systemctl start BigSeg7x4_clock.service 
+```
+
 ## References
 * [Adafruit Wiring and Setup](https://learn.adafruit.com/adafruit-led-backpack/python-wiring-and-setup-d74df15e-c55c-487a-acce-a905497ef9db)
 * [RTC Pi setup on RPI OS](https://www.abelectronics.co.uk/kb/article/30/rtc-pi-on-a-raspberry-pi-raspbian-jessie)
