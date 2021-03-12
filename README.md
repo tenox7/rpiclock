@@ -1,4 +1,4 @@
-# Raspberry PI Zero WiFi-NTP/RTC Desktop Clock
+# Raspberry PI Zero WiFi-NTP 7-Segment Desktop Clock
 
 Simple WiFi NTP desktop clock with a large 7-segment display. Built on Raspberry PI Zero.
 
@@ -101,8 +101,5 @@ $ sudo systemctl start BigSeg7x4_clock.service
 
 ## Legal
 
-This is not an officially supported Google product.
-
-```
-Copyright 2021 Google LLC
-```
+* This is not an officially supported Google product.
+* Copyright &copy; 2021 Google LLC
