@@ -11,6 +11,7 @@ Simple WiFi NTP desktop clock with a large 7-segment display. Built on Raspberry
 * Optional [RTC Pi Hat](https://www.abelectronics.co.uk/p/70/rtc-pi)
 * USB power supply and cable
 * Case TBD
+* [Screen](https://www.tapplastics.com/product/plastics/cut_to_size_plastic/acrylic_sheets_transparent_colors/519)
 
 ## Building the hardware
 
