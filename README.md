@@ -2,6 +2,8 @@
 
 Simple WiFi NTP desktop clock with a large 7-segment display. Built on Raspberry PI Zero.
 
+![RPI Zero Clock](rpiclock.png)
+
 ## Hardware BOM
 * [Raspberry PI Zero with WiFi and GPIO Headers](https://www.raspberrypi.org/products/raspberry-pi-zero/)
 * [Adafruit 1.2" 7-Segment Display with I2C Backpack](https://www.adafruit.com/product/1270)
