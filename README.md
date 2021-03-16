@@ -36,6 +36,8 @@ With LED dot NTP synchronization indicator...
 
 RTC is not required and rarely used while utilizing NTP. However in a case of power loss and your and internet/wifi not being online before RPI Zero is, you will have time from fake-hwclock (time RPI was last up), which can be hours ago.
 
+![RTC HAT](rtcpi-3.jpg)
+
 Install RTC Hat between PI GPIO and wires going to Adafruit. Make sure you install the coin battery before powering it on. The vendor warns that operation without battery will damage the board. Follow instructions below for software setup.
 
 ### Advanced GSM/GPRS/GPS Hat
