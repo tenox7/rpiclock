@@ -40,7 +40,7 @@ RTC is not required and rarely used while utilizing NTP. However in a case of po
 
 Install RTC Hat between PI GPIO and wires going to Adafruit. Make sure you install the coin battery before powering it on. The vendor warns that operation without battery will damage the board. Follow instructions below for software setup.
 
-### Advanced GSM/GPRS/GPS Hat
+### Advanced - GSM/GPRS/GPS Hat
 
 A complete overkill but you can also get time from:
 
@@ -50,6 +50,8 @@ A complete overkill but you can also get time from:
 * GNSS/GPS/COMPASS/etc. GPS based time
 
 You can use one of [these hats](https://www.amazon.com/gp/product/B076CPX4NN/) or similar.
+
+![GSM/GPRS/GPS HAT](gsmgprsgps.jpg)
 
 GSM/GPRS time penetrates buildings like normal cell phone. GPS requires an open sky access but can be usefull off grid.
 
