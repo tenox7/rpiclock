@@ -53,7 +53,7 @@ You can use one of [these hats](https://www.amazon.com/gp/product/B076CPX4NN/) o
 
 ![GSM/GPRS/GPS HAT](gsmgprsgps.jpg)
 
-GSM/GPRS time penetrates buildings like normal cell phone. GPS requires an open sky access but can be usefull off grid.
+GSM/GPRS time penetrates buildings like normal cell phone. GPS requires an open sky access but can be useful in off-grid situations.
 
 ### Case
 
