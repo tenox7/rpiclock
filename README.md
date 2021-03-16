@@ -4,6 +4,14 @@ Simple WiFi NTP desktop clock with a large 7-segment display. Built on Raspberry
 
 ![RPI Zero Clock](rpiclock.png)
 
+With NTP synchronization indicator...
+
+## Why?
+
+* We have NTP, WIFI, GSM/GPRS, GPS for 25+ years, yet no desktop clocks use this, while computers and mobile devices do. 
+* Changing DST on a desktop clock twice a year is a unnecessary burden.
+* I want to know exact time and whether it's actually synchronized or not.
+
 ## Hardware BOM
 * [Raspberry PI Zero with WiFi and GPIO Headers](https://www.raspberrypi.org/products/raspberry-pi-zero/)
 * [Adafruit 1.2" 7-Segment Display with I2C Backpack](https://www.adafruit.com/product/1270)
@@ -26,9 +34,9 @@ Simple WiFi NTP desktop clock with a large 7-segment display. Built on Raspberry
 
 ### Optional RTC Hat
 
-RTC hat is not required and rarely used while you have NTP. However in case you lose power and your internet/wifi doesn't get back on before RPI Zero you will have no time at all or the time will be completely wrong (last time PI was up).
+RTC is not required and rarely used while using NTP. However in a case of power loss and your and internet/wifi not being online before RPI Zero is, you will have time from fake-hwclock (time RPI was last up), which can be hours ago.
 
-Install RTC Hat between PI GPIO and wires going to Adafruit. Make sure you install coin battery before powering it on.
+Install RTC Hat between PI GPIO and wires going to Adafruit. Make sure you install the coin battery before powering it on. The vendor warns that operation without battery will damage the board. Follow instructions below for software setup.
 
 ### Advanced GSM/GPRS/GPS Hat
 
@@ -37,23 +45,25 @@ A complete overkill but you can also get time from:
 * GSM tower (no subscription required) via [NITZ](https://en.wikipedia.org/wiki/NITZ)
 * GSM network location (CLBS / CIPGSMLOC)
 * GPRS network location (AGPS)
-* GNSS/GPS/COMPASS/etc time
+* GNSS/GPS/COMPASS/etc. GPS based time
 
 You can use one of [these hats](https://www.amazon.com/gp/product/B076CPX4NN/) or similar.
 
+GSM/GPRS time penetrates buildings like normal cell phone. GPS requires an open sky access but can be usefull off grid.
+
 ### Case
 
-TBD - 3D printed?
+3D Printed - comming up
 
 ## Software configuration
 
 ### OS
 
-Any RPI OS will do, I used [Raspberry Pi OS](https://www.raspberrypi.org/software/operating-systems/), formerly Raspbian. For this project the Lite version should be used.
+Any RPI Linux will do. I used [Raspberry Pi OS](https://www.raspberrypi.org/software/operating-systems/), formerly Raspbian. For this project the Lite version should be used.
 
-### WiFi, Locale, Timezone, etc.
+### WiFi, Locale, Timezone, DST, etc.
 
-You can use `raspi-config` to configure WiFi, Locale, Timezone etc.
+You can use `raspi-config` to configure WiFi, Locale, Timezone, DST, etc.
 
 ### NTP config
 
@@ -114,6 +124,7 @@ $ sudo systemctl start BigSeg7x4_clock.service
 ## References
 * [Adafruit Wiring and Setup](https://learn.adafruit.com/adafruit-led-backpack/python-wiring-and-setup-d74df15e-c55c-487a-acce-a905497ef9db)
 * [RTC Pi setup on RPI OS](https://www.abelectronics.co.uk/kb/article/30/rtc-pi-on-a-raspberry-pi-raspbian-jessie)
+* [HT16K33 Python Library](https://circuitpython.readthedocs.io/projects/ht16k33/en/latest/)
 
 ## Legal
 
