@@ -4,7 +4,7 @@ Simple WiFi NTP desktop clock with a large 7-segment display. Built on Raspberry
 
 ![RPI Zero Clock](rpiclock.png)
 
-With NTP synchronization indicator...
+With LED dot NTP synchronization indicator...
 
 ## Why?
 
