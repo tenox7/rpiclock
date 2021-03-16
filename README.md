@@ -15,12 +15,14 @@ Simple WiFi NTP desktop clock with a large 7-segment display. Built on Raspberry
 
 ## Building the hardware
 
-### GPIO to Adafruit Segment Display I2C
+### Wiring GPIO to Adafruit Segment Display I2C
 * Raspberry Pi 3.3V to 7-Segment Display IO
 * Raspberry Pi 5V to 7-Segment Display VIN
 * Raspberry Pi GND to 7-Segment Display GND
 * Raspberry Pi SCL to 7-Segment Display SCL
 * Raspberry Pi SDA to 7-Segment Display SDA
+
+![Wiring Diagram](rpiclock_wiring.png)
 
 ### Optional RTC Hat
 
