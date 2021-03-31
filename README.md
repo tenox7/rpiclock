@@ -72,10 +72,12 @@ You can use `raspi-config` to configure WiFi, Locale, Timezone, DST, etc.
 ### NTP config
 
 ```shell
-$ apt install ntp ntpstat
+$ apt install ntp
 ```
 
 ### RTC config (optional)
+
+Skip this if not using RTC HAT.
 
 ```shell
 $ sudo apt install i2c-tools
@@ -121,8 +123,8 @@ Move .service in to `/etc/systemd/system`
 
 ```shell
 $ sudo systemctl daemon-reload
-$ sudo systemctl enable BigSeg7x4_clock.service 
-$ sudo systemctl start BigSeg7x4_clock.service 
+$ sudo systemctl enable rpiclock.service 
+$ sudo systemctl start rpiclock.service 
 ```
 
 ## References
