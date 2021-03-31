@@ -8,7 +8,7 @@ With LED dot NTP synchronization indicator...
 
 ## Why?
 
-* We have NTP, WIFI, GSM/GPRS, GPS for 25+ years, yet no desktop or alarm clocks use this, while computers and mobile devices do. 
+* Computers and mobile devices have been using NTP, GSM/GPRS, GPS/GNSS to sync time for decades. Desktop, wall and alarm clocks still live in 19th century.
 * Changing DST twice a year sucks ass.
 * I want to know exact time including whether it's actually synchronized or not.
 
