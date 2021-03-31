@@ -8,9 +8,9 @@ With LED dot NTP synchronization indicator...
 
 ## Why?
 
-* We have NTP, WIFI, GSM/GPRS, GPS for 25+ years, yet no desktop clocks use this, while computers and mobile devices do. 
-* Changing DST on a desktop clock twice a year is a unnecessary burden.
-* I want to know exact time and whether it's actually synchronized or not.
+* We have NTP, WIFI, GSM/GPRS, GPS for 25+ years, yet no desktop or alarm clocks use this, while computers and mobile devices do. 
+* Changing DST twice a year sucks ass.
+* I want to know exact time including whether it's actually synchronized or not.
 
 ## Hardware BOM
 * [Raspberry PI Zero with WiFi and GPIO Headers](https://www.raspberrypi.org/products/raspberry-pi-zero/)
