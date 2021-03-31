@@ -34,7 +34,7 @@ With LED dot NTP synchronization indicator...
 
 ### Optional RTC Hat
 
-RTC is not required and rarely used while utilizing NTP. However in a case of power loss and your and internet/wifi not being online before RPI Zero is, you will have time from fake-hwclock (time RPI was last up), which can be hours ago.
+RTC is not strictly required and technically very rarely used while utilizing NTP. However in a case of power loss, your and internet/wifi not being online before Raspberry PI comes up, you will get time from fake-hwclock, which is no use. RTC will make your time accurate in this case.
 
 ![RTC HAT](rtcpi-3.jpg)
 
