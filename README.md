@@ -18,7 +18,7 @@ With LED dot NTP synchronization indicator...
 * Breadboard Wires
 * Optional [RTC Pi Hat](https://www.abelectronics.co.uk/p/70/rtc-pi)
 * USB power supply and cable
-* [3D Printed Case](case/)
+* 3D Printed Case
 * [Screen](https://www.tapplastics.com/product/plastics/cut_to_size_plastic/acrylic_sheets_transparent_colors/519), Size: 120 x 50 x 3mm
 
 ## Building the hardware
@@ -57,7 +57,7 @@ GSM/GPRS time penetrates buildings like normal cell phone. GPS requires an open 
 
 ### Case
 
-![3D Printed Case](case/case.png)
+![3D Printed Case](rpiclock-case.png)
 
 3D Print top and bottom or desing your own case
 
