@@ -57,6 +57,8 @@ GSM/GPRS time penetrates buildings like normal cell phone. GPS requires an open 
 
 ### Case
 
+![3D Printed Case](case/case.png)
+
 3D Print top and bottom or desing your own case
 
 ## Software configuration
