@@ -24,11 +24,11 @@ With LED dot NTP synchronization indicator...
 ## Building the hardware
 
 ### Wiring GPIO to Adafruit Segment Display I2C
-* RPi 3.3V to 7-Segment Display `IO` (V_IO)
-* RPi 5V to 7-Segment Display `+` (+5V)
-* RPi GND to 7-Segment Display `-` (GND)
-* RPi SCL to 7-Segment Display `C` (SCL) 
-* RPi SDA to 7-Segment Display `D` (SDA)
+* RPi `3.3V` to 7-Segment Display `IO` (V_IO)
+* RPi `5V` to 7-Segment Display `+` (+5V)
+* RPi `GND` to 7-Segment Display `-` (GND)
+* RPi `SCL` to 7-Segment Display `C` (SCL) 
+* RPi `SDA` to 7-Segment Display `D` (SDA)
 
 ![Wiring Diagram](rpiclock_wiring.png)
 
