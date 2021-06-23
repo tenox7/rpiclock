@@ -59,7 +59,7 @@ GSM/GPRS time penetrates buildings like normal cell phone. GPS requires an open 
 
 ![3D Printed Case](rpiclock_case.png)
 
-3D Print top and bottom or desing your own case
+3D Print [rpiclock.stl](rpiclock.stl) or desing your own case.
 
 ## Software configuration
 
