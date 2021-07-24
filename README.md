@@ -100,7 +100,7 @@ fi
 Reboot, check if hwclock works:
 
 ```shell
-$ sudo i2cdetect -y
+$ sudo i2cdetect -y 1
 ```
 
 should show `UU` on position `68`.
