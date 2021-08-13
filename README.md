@@ -55,6 +55,10 @@ You can use one of [these hats](https://www.amazon.com/gp/product/B076CPX4NN/) o
 
 GSM/GPRS time penetrates buildings like normal cell phone. GPS requires an open sky access but can be useful in off-grid situations.
 
+### Light sensor
+
+Currently rpiclock is set to change brightness based on time of day. A more advanced case would be to use a I2C based Lux sensor to measure ambient light and change display brightness based on input from the sensor. Example sensor [VEML7700](https://www.adafruit.com/product/4162).
+
 ### Case
 
 ![3D Printed Case](rpiclock_case.png)
