@@ -16,7 +16,8 @@ With LED dot NTP synchronization indicator...
 * [Raspberry PI Zero with WiFi and GPIO Headers](https://www.raspberrypi.org/products/raspberry-pi-zero/)
 * [Adafruit 1.2" 7-Segment Display with I2C Backpack](https://www.adafruit.com/product/1270)
 * Breadboard Wires
-* Optional [RTC Pi Hat](https://www.abelectronics.co.uk/p/70/rtc-pi)
+* Optional [Abelectronics RTC Pi Backup Hat](https://www.abelectronics.co.uk/p/70/rtc-pi)
+* Optional [Adafruit VEML7700 Lux Sensor](https://www.adafruit.com/product/4162)
 * USB power supply and cable
 * 3D Printed Case
 * [Screen](https://www.tapplastics.com/product/plastics/cut_to_size_plastic/acrylic_sheets_transparent_colors/519), Size: 120 x 50 x 3mm
@@ -32,11 +33,13 @@ With LED dot NTP synchronization indicator...
 
 ![Wiring Diagram](rpiclock_wiring.png)
 
-### Optional RTC Hat
+### Optional RTC Backup Battery Hat
 
-RTC is not required and almost never used while utilizing NTP. However in case of power loss AND internet/wifi/router not being up before Raspberry PI boots, you will get time from fake-hwclock, which is no use. RTC will make your time accurate in this case.
+RTC is not required and almost never used while using NTP. However in case of power loss AND internet/wifi/router not being up before Raspberry PI boots, you will get time from *fake-hwclock*, which is no use. RTC backup will make your time accurate in this rare circumstance.
 
 ![RTC HAT](rtcpi-3.jpg)
+
+There are many RTC backup modules available on the market, [this one](https://www.abelectronics.co.uk/p/70/rtc-pi) is Pi Zero sized.
 
 Install RTC Hat between PI GPIO and wires going to Adafruit. Make sure you install the coin battery before powering it on. The vendor warns that operation without battery will damage the board. Follow instructions below for software setup.
 
