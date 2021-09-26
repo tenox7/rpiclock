@@ -34,7 +34,7 @@ With LED dot NTP synchronization indicator...
 
 ### Optional RTC Hat
 
-RTC is not strictly required and technically very rarely used while utilizing NTP. However in a case of power loss, internet/wifi/router not being online before Raspberry PI comes up, you will get time from fake-hwclock, which is no use. RTC will make your time accurate in this case.
+RTC is not required and almost never used while utilizing NTP. However in case of power loss AND internet/wifi/router not being up before Raspberry PI boots, you will get time from fake-hwclock, which is no use. RTC will make your time accurate in this case.
 
 ![RTC HAT](rtcpi-3.jpg)
 
@@ -44,7 +44,7 @@ Install RTC Hat between PI GPIO and wires going to Adafruit. Make sure you insta
 
 A complete overkill but you can also get time from:
 
-* GSM tower (no subscription required) via [NITZ](https://en.wikipedia.org/wiki/NITZ)
+* GSM tower via [NITZ](https://en.wikipedia.org/wiki/NITZ) (no paid subscription required)
 * GSM network location (CLBS / CIPGSMLOC)
 * GPRS network location (AGPS)
 * GNSS/GPS/COMPASS/etc. GPS based time
