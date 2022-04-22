@@ -60,7 +60,7 @@ GSM/GPRS time penetrates buildings like normal cell phone. GPS requires an open 
 
 ### Light sensor
 
-Currently rpiclock is set to change brightness based on time of day. A more advanced case would be to use a I2C based Lux sensor to measure ambient light and change display brightness based on input from the sensor. Example sensor [VEML7700](https://www.adafruit.com/product/4162).
+Rpiclock is set to change brightness based on time of day. A more advanced case would be to use a I2C based Lux sensor to measure ambient light and change display brightness based on input from the sensor. Example sensor [VEML7700](https://www.adafruit.com/product/4162).
 
 ### Case
 
@@ -72,7 +72,7 @@ Currently rpiclock is set to change brightness based on time of day. A more adva
 
 ### OS
 
-The default pick would be [Raspberry Pi OS](https://www.raspberrypi.org/software/operating-systems/). Raspbian is rather slow to boot, faster options are [DietPI](https://dietpi.com/), [piCore](http://www.tinycorelinux.net/13.x/armv6/releases/RPi/) or [Instant-pi](https://github.com/IronOxidizer/instant-pi).
+The ubiquitous [Raspberry Pi OS](https://www.raspberrypi.org/software/operating-systems/) (formerly Raspbian) is quite of a bloat and slow to boot but otherwise works just fine. Faster options are [DietPI](https://dietpi.com/), [piCore](http://www.tinycorelinux.net/13.x/armv6/releases/RPi/) or [Instant-pi](https://github.com/IronOxidizer/instant-pi).
 
 ### Power
 
