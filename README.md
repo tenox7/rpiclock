@@ -72,9 +72,11 @@ Currently rpiclock is set to change brightness based on time of day. A more adva
 
 ### OS
 
-Any RPI Linux will do. I used [Raspberry Pi OS](https://www.raspberrypi.org/software/operating-systems/), formerly Raspbian. For this project the Lite version should be used.
+The default pick would be [Raspberry Pi OS](https://www.raspberrypi.org/software/operating-systems/). Raspbian is rather slow to boot, faster options are [DietPI](https://dietpi.com/), [piCore](http://www.tinycorelinux.net/13.x/armv6/releases/RPi/) or [Instant-pi](https://github.com/IronOxidizer/instant-pi).
 
-Raspbian is rather slow to boot. [Instant-pi](https://github.com/IronOxidizer/instant-pi) can be used to make it extremely fast.
+### Power
+
+Check if Raspberry PI is not experiencing low voltage. You can run `vcgencmd get_throttled`, it should return `0x0`.
 
 ### I2C Interface
 
