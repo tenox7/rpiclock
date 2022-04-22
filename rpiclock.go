@@ -3,6 +3,7 @@ package main
 import (
 	"time"
 
+	"github.com/beevik/ntp"
 	"github.com/rafalop/sevensegment"
 )
 
@@ -14,7 +15,7 @@ func bright(d *sevensegment.SevenSegment, h int) {
 	d.SetBrightness(b)
 }
 
-func tick(d *sevensegment.SevenSegment) {
+func tick(d *sevensegment.SevenSegment, l int) {
 	h, m, s := time.Now().Local().Clock()
 	a := h % 12
 	if a == 0 {
@@ -22,7 +23,7 @@ func tick(d *sevensegment.SevenSegment) {
 	}
 	d.SetNum((a * 100) + m)
 
-	// segments: 0,1=tick 2=tl 3=bl 4=tr
+	// segments: 0,1=tick 2=topLeft 3=bottomLeft 4=topRight
 	var sg [7]bool
 	if (s % 2) == 0 {
 		sg[0] = true
@@ -30,6 +31,9 @@ func tick(d *sevensegment.SevenSegment) {
 	}
 	if h > 11 {
 		sg[2] = true
+	}
+	if l < 3 {
+		sg[3] = true
 	}
 	d.SetSegments(4, sg)
 
@@ -40,16 +44,31 @@ func tick(d *sevensegment.SevenSegment) {
 	d.WriteData()
 }
 
+func ntps(c chan<- int) {
+	for {
+		r, err := ntp.Query("127.0.0.1")
+		if err != nil {
+			r.Leap = 3
+		}
+		c <- int(r.Leap)
+		time.Sleep(60 * time.Second)
+	}
+}
+
 func main() {
 	d := sevensegment.NewSevenSegment(0x70)
-	bright(d, time.Now().Local().Hour())
-
 	s := time.NewTicker(time.Second)
+	n := make(chan int)
+	l := 0
+
+	go ntps(n)
+	bright(d, time.Now().Local().Hour())
 
 	for {
 		select {
+		case l = <-n:
 		case <-s.C:
-			tick(d)
+			tick(d, l)
 		}
 	}
 }
