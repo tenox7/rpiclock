@@ -2,7 +2,7 @@
 Description=rpiclock
 
 [Service]
-ExecStart=/home/pi/rpiclock.py
+ExecStart=/usr/local/bin/rpiclock
 User=pi
 
 [Install]
