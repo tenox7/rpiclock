@@ -80,6 +80,8 @@ You can use `raspi-config` to configure WiFi, Locale, Timezone, DST, etc.
 
 ### NTP config
 
+A real NTP daemon supporting RFC5905 is required to be able to get leap indicator and show whether the clock is synchronised or not. You can still use rpiclock without NTP but it will not show the status.
+
 ```shell
 $ apt install ntp
 ```
@@ -117,18 +119,12 @@ $ sudo hwclock -r
 $ sudo hwclock -w
 ```
 
-### Python Libs
-
-```
-$ sudo apt install python3-pip
-$ sudo pip3 install adafruit-circuitpython-ht16k33 apscheduler
-```
 
 ### Clock Service
 
-Move .py in to location you want, it can run from /home/pi or /usr/local/bin, etc.
+Download a binary from [Releases](https://github.com/tenox7/rpiclock/releases) and move to `/usr/local/bin`.
 
-Move .service in to `/etc/systemd/system`
+Download [Service File](https://raw.githubusercontent.com/tenox7/rpiclock/main/rpiclock.service) and move in to `/etc/systemd/system`.
 
 ```shell
 $ sudo systemctl daemon-reload
@@ -139,9 +135,9 @@ $ sudo systemctl start rpiclock.service
 ## References
 * [Adafruit Wiring and Setup](https://learn.adafruit.com/adafruit-led-backpack/python-wiring-and-setup-d74df15e-c55c-487a-acce-a905497ef9db)
 * [RTC Pi setup on RPI OS](https://www.abelectronics.co.uk/kb/article/30/rtc-pi-on-a-raspberry-pi-raspbian-jessie)
-* [HT16K33 Python Library](https://circuitpython.readthedocs.io/projects/ht16k33/en/latest/)
+* [HT16K33 Golang Library](https://github.com/rafalop/sevensegment)
 
 ## Legal
 
 * This is not an officially supported Google product.
-* Copyright &copy; 2021 Google LLC
+* Copyright &copy; 2021-2022 Google LLC
