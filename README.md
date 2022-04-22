@@ -74,11 +74,15 @@ Currently rpiclock is set to change brightness based on time of day. A more adva
 
 Any RPI Linux will do. I used [Raspberry Pi OS](https://www.raspberrypi.org/software/operating-systems/), formerly Raspbian. For this project the Lite version should be used.
 
+### I2C Interface
+
+Make sure I2C interface is enabled. On Raspbian this is done using `raspi-config` under `Interface Options`.
+
 ### WiFi, Locale, Timezone, DST, etc.
 
-You can use `raspi-config` to configure WiFi, Locale, Timezone, DST, etc.
+Make sure to configure WiFi, Locale, Timezone and DST. On Raspbian this is done using `raspi-config`.
 
-### NTP config
+### NTP
 
 A real NTP daemon supporting RFC5905 is required to be able to get leap indicator and show whether the clock is synchronised or not. You can still use rpiclock without NTP but it will not show the status.
 
@@ -86,9 +90,9 @@ A real NTP daemon supporting RFC5905 is required to be able to get leap indicato
 $ apt install ntp
 ```
 
-### RTC config (optional)
+### RTC (optional)
 
-Skip this if not using RTC HAT.
+Skip this if not using an RTC HAT.
 
 ```shell
 $ sudo apt install i2c-tools
@@ -120,7 +124,7 @@ $ sudo hwclock -w
 ```
 
 
-### Clock Service
+### Clock Service Install
 
 Download the binary from [Releases](https://github.com/tenox7/rpiclock/releases) and move to `/usr/local/bin`.
 
