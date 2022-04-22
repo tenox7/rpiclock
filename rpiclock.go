@@ -26,7 +26,7 @@ import (
 
 var (
 	brDay  = flag.Int("br_day", 15, "brightness during day 0..15")
-	brNite = flag.Int("br_nite", 3, "brightness during night 0..15")
+	brNite = flag.Int("br_nite", 0, "brightness during night 0..15")
 )
 
 func bright(d *sevensegment.SevenSegment, h int) {
@@ -66,15 +66,12 @@ func tick(d *sevensegment.SevenSegment, l int) {
 	d.WriteData()
 }
 
-func ntps(c chan<- int) {
-	for {
-		r, err := ntp.Query("127.0.0.1")
-		if err != nil {
-			r.Leap = 3
-		}
-		c <- int(r.Leap)
-		time.Sleep(60 * time.Second)
+func leap() int {
+	r, err := ntp.Query("127.0.0.1")
+	if err != nil {
+		return 3
 	}
+	return int(r.Leap)
 }
 
 func main() {
@@ -84,8 +81,14 @@ func main() {
 	n := make(chan int)
 	l := 0
 
-	go ntps(n)
 	bright(d, time.Now().Local().Hour())
+
+	go func(c chan<- int) {
+		for {
+			c <- leap()
+			time.Sleep(60 * time.Second)
+		}
+	}(n)
 
 	for {
 		select {
