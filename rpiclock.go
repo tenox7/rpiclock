@@ -16,7 +16,11 @@ func bright(d *sevensegment.SevenSegment, h int) {
 
 func tick(d *sevensegment.SevenSegment) {
 	h, m, s := time.Now().Local().Clock()
-	d.SetNum(((h % 12) * 100) + m)
+	a := h % 12
+	if a == 0 {
+		a = 12
+	}
+	d.SetNum((a * 100) + m)
 
 	// segments: 0,1=tick 2=tl 3=bl 4=tr
 	var sg [7]bool
