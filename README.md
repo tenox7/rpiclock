@@ -122,9 +122,9 @@ $ sudo hwclock -w
 
 ### Clock Service
 
-Download a binary from [Releases](https://github.com/tenox7/rpiclock/releases) and move to `/usr/local/bin`.
+Download the binary from [Releases](https://github.com/tenox7/rpiclock/releases) and move to `/usr/local/bin`.
 
-Download [Service File](https://raw.githubusercontent.com/tenox7/rpiclock/main/rpiclock.service) and move in to `/etc/systemd/system`.
+Download [Service File](https://raw.githubusercontent.com/tenox7/rpiclock/main/rpiclock.service) and move in to `/etc/systemd/system`. Edit, make sure the right user and path are configured.
 
 ```shell
 $ sudo systemctl daemon-reload
