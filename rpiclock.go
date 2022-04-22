@@ -17,16 +17,22 @@
 package main
 
 import (
+	"flag"
 	"time"
 
 	"github.com/beevik/ntp"
 	"github.com/rafalop/sevensegment"
 )
 
+var (
+	brDay  = flag.Int("br_day", 15, "brightness during day 0..15")
+	brNite = flag.Int("br_nite", 3, "brightness during night 0..15")
+)
+
 func bright(d *sevensegment.SevenSegment, h int) {
-	b := 0
-	if h > 7 && h < 20 {
-		b = 15
+	b := *brNite
+	if h > 6 && h < 20 {
+		b = *brDay
 	}
 	d.SetBrightness(b)
 }
@@ -72,6 +78,7 @@ func ntps(c chan<- int) {
 }
 
 func main() {
+	flag.Parse()
 	d := sevensegment.NewSevenSegment(0x70)
 	s := time.NewTicker(time.Second)
 	n := make(chan int)
