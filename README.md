@@ -8,9 +8,9 @@ With LED dot NTP synchronization indicator...
 
 ## Why?
 
-* Computers and mobile devices have been using NTP, GSM/GPRS, GPS/GNSS to sync time for decades. Desktop, wall and alarm clocks still live in 19th century.
+* Computers and mobile devices have been using NTP, GSM/GPRS, GPS/GNSS to synchronize time for decades. Desktop, wall and alarm clocks still live in 19th century.
 * Changing time twice a year due to retarded DST sucks ass.
-* I want to know exact time including whether it's actually synchronized or not.
+* I want to know if the time I'm reading is accurate (synchronized) or not.
 
 ## Hardware BOM
 * [Raspberry PI Zero with WiFi and GPIO Headers](https://www.raspberrypi.org/products/raspberry-pi-zero/)
@@ -19,7 +19,7 @@ With LED dot NTP synchronization indicator...
 * Optional [Abelectronics RTC Pi Backup Hat](https://www.abelectronics.co.uk/p/70/rtc-pi)
 * Optional [Adafruit VEML7700 Lux Sensor](https://www.adafruit.com/product/4162)
 * USB power supply and cable
-* 3D Printed Case
+* Case, either 3D printed or make your own
 * [Screen](https://www.tapplastics.com/product/plastics/cut_to_size_plastic/acrylic_sheets_transparent_colors/519), Size: 120 x 50 x 3mm
 
 ## Building the hardware
@@ -72,11 +72,13 @@ Rpiclock is set to change brightness based on time of day. A more advanced case 
 
 ### OS
 
-The ubiquitous [Raspberry Pi OS](https://www.raspberrypi.org/software/operating-systems/) (formerly Raspbian) is quite of a bloat and slow to boot but otherwise works just fine. Faster options are [Alpine](https://www.alpinelinux.org/), [DietPI](https://dietpi.com/), [piCore](http://www.tinycorelinux.net/13.x/armv6/releases/RPi/) or [instant-pi](https://github.com/IronOxidizer/instant-pi).
+- Linux. The ubiquitous [Raspberry Pi OS](https://www.raspberrypi.org/software/operating-systems/) (formerly Raspbian) is quite of a bloat and slow to boot but otherwise works well enough. Faster options are [Alpine](https://www.alpinelinux.org/), [DietPI](https://dietpi.com/), [piCore](http://www.tinycorelinux.net/13.x/armv6/releases/RPi/) or [instant-pi](https://github.com/IronOxidizer/instant-pi).
 
-FreeBSD - maybe. Super slow to boot and no wlan support on rpi zero.
+- FreeBSD - maybe. Super slow to boot and no wlan support on rpi zero.
 
-NetBSD - no wlan support.
+- NetBSD - no wlan support.
+
+- Plan 9 - maybe, but https://periph.io/ is not supported?
 
 ### Power
 
@@ -98,9 +100,11 @@ A real NTP daemon supporting RFC5905 is required to be able to get leap indicato
 $ apt install ntp
 ```
 
-### RTC (optional)
+### RTC hwclock (optional)
 
 Skip this if not using an RTC HAT.
+
+RTC/hwclock also depends on which OS you are using. Following instructions are for Raspbian:
 
 ```shell
 $ sudo apt install i2c-tools
@@ -136,7 +140,7 @@ $ sudo hwclock -w
 
 Download the binary from [Releases](https://github.com/tenox7/rpiclock/releases) and move to `/usr/local/bin`.
 
-Download [Service File](https://raw.githubusercontent.com/tenox7/rpiclock/main/rpiclock.service) and move in to `/etc/systemd/system`. Edit, make sure the right user and path are configured.
+If using `systemd` Download [Service File](https://raw.githubusercontent.com/tenox7/rpiclock/main/rpiclock.service) and move in to `/etc/systemd/system`. Edit, make sure the right user and path are configured.
 
 ```shell
 $ sudo systemctl daemon-reload
