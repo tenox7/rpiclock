@@ -72,7 +72,7 @@ Rpiclock is set to change brightness based on time of day. A more advanced case 
 
 ### OS
 
-The ubiquitous [Raspberry Pi OS](https://www.raspberrypi.org/software/operating-systems/) (formerly Raspbian) is quite of a bloat and slow to boot but otherwise works just fine. Faster options are [DietPI](https://dietpi.com/), [piCore](http://www.tinycorelinux.net/13.x/armv6/releases/RPi/) or [instant-pi](https://github.com/IronOxidizer/instant-pi).
+The ubiquitous [Raspberry Pi OS](https://www.raspberrypi.org/software/operating-systems/) (formerly Raspbian) is quite of a bloat and slow to boot but otherwise works just fine. Faster options are [Alpine](https://www.alpinelinux.org/), [DietPI](https://dietpi.com/), [piCore](http://www.tinycorelinux.net/13.x/armv6/releases/RPi/) or [instant-pi](https://github.com/IronOxidizer/instant-pi).
 
 FreeBSD - maybe. Super slow to boot and no wlan support on rpi zero.
 
