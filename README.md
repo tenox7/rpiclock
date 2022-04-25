@@ -41,7 +41,7 @@ RTC is not required and almost never used while using NTP. However in case of po
 
 There are many RTC backup modules available on the market, [this one](https://www.abelectronics.co.uk/p/70/rtc-pi) is Pi Zero sized.
 
-Install RTC Hat between PI GPIO and wires going to Adafruit. Make sure you install the coin battery before powering it on. The vendor warns that operation without battery will damage the board. Follow instructions below for software setup.
+Install RTC Hat between PI GPIO and wires going to the display. Make sure you install the coin battery before powering it on. The vendor warns that operation without battery will damage the board. Follow instructions below for software setup.
 
 ### Advanced - GSM/GPRS/GPS Hat
 
