@@ -18,6 +18,9 @@ package main
 
 import (
 	"flag"
+	"os"
+	"os/signal"
+	"syscall"
 	"time"
 
 	"github.com/beevik/ntp"
@@ -82,6 +85,15 @@ func main() {
 	l := 0
 
 	bright(d, time.Now().Local().Hour())
+
+	c := make(chan os.Signal)
+	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
+	go func() {
+		<-c
+		d.Clear()
+		d.WriteData()
+		os.Exit(0)
+	}()
 
 	go func(c chan<- int) {
 		for {
