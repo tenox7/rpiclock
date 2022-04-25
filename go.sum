@@ -6,6 +6,8 @@ github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZb
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/rafalop/sevensegment v0.0.0-20220422111518-7cd1f31ba617 h1:KJwiZ2vYr4tMF4gYTty1sOM02ZAfI1HdN6Qev+MHdBQ=
 github.com/rafalop/sevensegment v0.0.0-20220422111518-7cd1f31ba617/go.mod h1:XvFkcX+SP/0XnEWalWUracKH1OGlobWbESiShZ6Qhus=
+github.com/rafalop/sevensegment v0.0.0-20220425091805-49807d1bd894 h1:VC0ml/vLysDk4Nrp5ckkQM0rt+Ux9JOA477N48Q8uEk=
+github.com/rafalop/sevensegment v0.0.0-20220425091805-49807d1bd894/go.mod h1:XvFkcX+SP/0XnEWalWUracKH1OGlobWbESiShZ6Qhus=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.7.1 h1:5TQK59W5E3v0r2duFAb7P95B6hEeOyEnHRa8MjYSMTY=
 github.com/stretchr/testify v1.7.1/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=

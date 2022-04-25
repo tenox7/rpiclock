@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/beevik/ntp v0.3.0
-	github.com/rafalop/sevensegment v0.0.0-20220422111518-7cd1f31ba617
+	github.com/rafalop/sevensegment v0.0.0-20220425091805-49807d1bd894
 )
 
 require (

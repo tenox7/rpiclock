@@ -48,17 +48,16 @@ func tick(d *sevensegment.SevenSegment, l int) {
 	}
 	d.SetNum((a * 100) + m)
 
-	// segments: 0,1=tick 2=topLeft 3=bottomLeft 4=topRight
 	var sg [7]bool
 	if (s % 2) == 0 {
-		sg[0] = true
-		sg[1] = true
+		sg[sevensegment.IndMidTop] = true
+		sg[sevensegment.IndMidBtt] = true
 	}
 	if h > 11 {
-		sg[2] = true
+		sg[sevensegment.IndLeftTop] = true
 	}
 	if l < 3 {
-		sg[3] = true
+		sg[sevensegment.IndLeftBtt] = true
 	}
 	d.SetSegments(4, sg)
 
