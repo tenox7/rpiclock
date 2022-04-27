@@ -79,21 +79,20 @@ func leap() int {
 func main() {
 	flag.Parse()
 	d := sevensegment.NewSevenSegment(0x70)
-	s := time.NewTicker(time.Second)
-	n := make(chan int)
-	l := 0
-
 	bright(d, time.Now().Local().Hour())
 
+	s := time.NewTicker(time.Second)
 	c := make(chan os.Signal)
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 	go func() {
 		<-c
+		s.Stop()
 		d.Clear()
 		d.WriteData()
 		os.Exit(0)
 	}()
 
+	n := make(chan int)
 	go func(c chan<- int) {
 		for {
 			c <- leap()
@@ -101,6 +100,7 @@ func main() {
 		}
 	}(n)
 
+	l := 0
 	for {
 		select {
 		case l = <-n:
