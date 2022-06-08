@@ -45,11 +45,10 @@ func bright(h int) {
 
 func tick(l int) {
 	h, m, s := time.Now().Local().Clock()
-	h = h % 12
-	if h == 0 {
-		h = 12
+	a := h % 12
+	if a == 0 {
+		a = 12
 	}
-
 	ind := " "
 	sec := " "
 	if (s % 2) == 0 {
@@ -63,11 +62,10 @@ func tick(l int) {
 	case l < 3:
 		ind = "."
 	}
-
 	if m == 0 && s == 0 {
 		bright(h)
 	}
-	microdotphat.WriteString(fmt.Sprintf("%v%02d%v%02d", ind, h, sec, m), 0, 0, false)
+	microdotphat.WriteString(fmt.Sprintf("%v%02d%v%02d", ind, a, sec, m), 0, 0, false)
 	err := microdotphat.Show()
 	if err != nil {
 		log.Println(err)
