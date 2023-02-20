@@ -2,8 +2,4 @@
 Description=rpiclock
 
 [Service]
-ExecStart=/usr/local/bin/rpiclock
-User=pi
-
-[Install]
-WantedBy=default.target
+ExecStart=/home/pi/rpiclock

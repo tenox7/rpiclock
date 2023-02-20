@@ -138,14 +138,14 @@ $ sudo hwclock -w
 
 ### Clock Service Install
 
-Download the binary from [Releases](https://github.com/tenox7/rpiclock/releases) and move to `/usr/local/bin`.
+Download the binary from [Releases](https://github.com/tenox7/rpiclock/releases).
 
-If using `systemd` Download [Service File](https://raw.githubusercontent.com/tenox7/rpiclock/main/rpiclock.service) and move in to `/etc/systemd/system`. Edit, make sure the right user and path are configured.
+If using `systemd` Download [Service File](https://raw.githubusercontent.com/tenox7/rpiclock/main/rpiclock.service) and move in to `~/.config/systemd/user/rpiclock.service`. Make sure the right path to the binary is specified.
 
 ```shell
-$ sudo systemctl daemon-reload
-$ sudo systemctl enable rpiclock.service 
-$ sudo systemctl start rpiclock.service 
+$ loginctl enable-linger $USER
+$ systemctl --user daemon-reload
+$ systemctl --user start rpiclock.service
 ```
 
 ## References
@@ -156,4 +156,4 @@ $ sudo systemctl start rpiclock.service
 ## Legal
 
 * This is not an officially supported Google product.
-* Copyright &copy; 2021-2022 Google LLC
+* Copyright &copy; 2021-2023 Google LLC
