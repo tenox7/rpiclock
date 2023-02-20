@@ -78,7 +78,7 @@ Rpiclock is set to change brightness based on time of day. A more advanced case 
 
 - NetBSD - no wlan support.
 
-- Plan 9 - maybe, but https://periph.io/ is not supported?
+- Plan 9 - maybe, but https://periph.io/ is not supported
 
 ### Power
 
@@ -125,7 +125,7 @@ fi
 Reboot, check if hwclock works:
 
 ```shell
-$ sudo i2cdetect -y 1
+$ i2cdetect -y 1
 ```
 
 should show `UU` on position `68`.
