@@ -86,7 +86,7 @@ Check if Raspberry PI is not experiencing low voltage. You can run `vcgencmd get
 
 ### I2C Interface
 
-Make sure I2C interface is enabled. On Raspbian this is done using `raspi-config` under `Interface Options`.
+Make sure I2C interface is enabled. On Raspbian this is done using `raspi-config` under `Interface Options`. Run `i2cdetect -y 1`. It should show value `70` on position `70`.
 
 ### WiFi, Locale, Timezone, DST, etc.
 
