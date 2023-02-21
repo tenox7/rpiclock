@@ -3,3 +3,6 @@ Description=rpiclock
 
 [Service]
 ExecStart=/home/pi/rpiclock
+
+[Install]
+WantedBy=default.target

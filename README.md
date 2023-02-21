@@ -145,7 +145,7 @@ If using `systemd` Download [Service File](https://raw.githubusercontent.com/ten
 ```shell
 $ loginctl enable-linger $USER
 $ systemctl --user daemon-reload
-$ systemctl --user start rpiclock.service
+$ systemctl --user enable --now rpiclock.service
 ```
 
 ## References
