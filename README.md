@@ -57,9 +57,7 @@ A complete overkill but you can also get time from:
 
 You can use one of [these hats](https://www.amazon.com/gp/product/B076CPX4NN/) or similar. [MAX-M8Q](https://www.waveshare.com/max-m8q-gnss-hat.htm) has passthrough GPIO and awesome Raspberry PI and [NTP setup instructions](https://www.waveshare.com/wiki/MAX-M8Q_GNSS_HAT).
 
-GSM/GPRS time penetrates buildings like normal cell phone. GPS requires an open sky access but can be useful in off-grid situations.
-
-T
+GSM/GPRS time penetrates buildings like normal cell phone. GPS requires an open sky access but is less dependent on ground infrastructure.
 
 ### Light sensor
 
