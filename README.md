@@ -8,9 +8,10 @@ With LED dot NTP synchronization indicator...
 
 ## Why?
 
-* Computers and mobile devices have been using NTP, GSM/GPRS, GPS/GNSS to synchronize time for decades. Desktop, wall and alarm clocks still live in 19th century.
+* Computers and mobile devices have been using NTP, GSM/GPRS, GPS/GNSS to synchronize time for decades. Desktop / wall and alarm clocks still live in 19th century.
 * Changing time twice a year due to retarded DST sucks ass.
 * I want to know if the time I'm reading is accurate (synchronized) or not.
+* Maybe I want to have Stratum 1 desktop clock.
 
 ## Hardware BOM
 * [Raspberry PI Zero with WiFi and GPIO Headers](https://www.raspberrypi.org/products/raspberry-pi-zero/)
@@ -43,7 +44,9 @@ There are many RTC backup modules available on the market, [this one](https://ww
 
 Install RTC Hat between PI GPIO and wires going to the display. Make sure you install the coin battery before powering it on. The vendor warns that operation without battery will damage the board. Follow instructions below for software setup.
 
-### Advanced - GSM/GPRS/GPS Hat
+### Advanced - GSM/GPRS/GPS/GNSS Hat
+
+![GSM/GPRS/GPS HAT](gsmgprsgps.jpg)
 
 A complete overkill but you can also get time from:
 
@@ -52,11 +55,11 @@ A complete overkill but you can also get time from:
 * GPRS network location (AGPS)
 * GNSS/GPS/COMPASS/etc. GPS based time
 
-You can use one of [these hats](https://www.amazon.com/gp/product/B076CPX4NN/) or similar.
-
-![GSM/GPRS/GPS HAT](gsmgprsgps.jpg)
+You can use one of [these hats](https://www.amazon.com/gp/product/B076CPX4NN/) or similar. [MAX-M8Q](https://www.waveshare.com/max-m8q-gnss-hat.htm) has passthrough GPIO and awesome Raspberry PI and [NTP setup instructions](https://www.waveshare.com/wiki/MAX-M8Q_GNSS_HAT).
 
 GSM/GPRS time penetrates buildings like normal cell phone. GPS requires an open sky access but can be useful in off-grid situations.
+
+T
 
 ### Light sensor
 
