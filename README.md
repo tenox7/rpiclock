@@ -10,7 +10,7 @@ With LED dot NTP synchronization indicator...
 
 * Computers and mobile devices have been using NTP, GSM/GPRS, GPS/GNSS to synchronize time for decades. Desktop / wall and alarm clocks still live in 19th century.
 * Changing time twice a year due to retarded DST sucks ass.
-* I want to have an indication if the time is accurate (synchronized) or not.
+* I want to have an indication to see if the time is accurate (synchronized) or not.
 * Maybe I want to have Stratum 1 desktop clock.
 
 ## Hardware BOM
