@@ -67,7 +67,7 @@ Rpiclock is set to change brightness based on time of day. A more advanced case 
 
 ![3D Printed Case](rpiclock_case.png)
 
-3D Print [rpiclock.stl](rpiclock.stl) or desing your own case.
+Download and 3D Print [rpiclock.stl](rpiclock.stl) or design your own case.
 
 ## Software configuration
 
