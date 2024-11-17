@@ -73,7 +73,7 @@ Download and 3D Print [rpiclock.stl](rpiclock.stl) or design your own case.
 
 ### OS
 
-- Linux. The ubiquitous [Raspberry Pi OS](https://www.raspberrypi.org/software/operating-systems/) (formerly Raspbian) is quite of a bloat and slow to boot but otherwise works pretty well. Disable wait for network to speed up boot. Faster options are [Alpine](https://www.alpinelinux.org/), [piCore](http://www.tinycorelinux.net/13.x/armv6/releases/RPi/) or [instant-pi](https://github.com/IronOxidizer/instant-pi).
+- Linux. The ubiquitous [Raspberry Pi OS](https://www.raspberrypi.org/software/operating-systems/) (formerly Raspbian) is quite of a bloat and slow to boot but otherwise works pretty well. Disable wait for network to speed up boot. Faster options are [Alpine](https://www.alpinelinux.org/), [piCore](http://www.tinycorelinux.net/13.x/armv6/releases/RPi/) or [instant-pi](https://github.com/IronOxidizer/instant-pi). [DietPi](https://dietpi.com/) despite promising name is actually quite slow to boot, likely due to Pigbian base.
 
 - FreeBSD - maybe. Super slow to boot and no wlan support on rpi zero.
 
