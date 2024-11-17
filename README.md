@@ -101,6 +101,8 @@ A real NTP daemon supporting RFC5905 is required to be able to get leap indicato
 $ apt install ntp
 ```
 
+I typically configure it for `pool.ntp.org` and my local wifi router, which has battery backup for time.
+
 ### RTC hwclock (optional)
 
 Skip this if not using an RTC HAT.
