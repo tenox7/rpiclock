@@ -73,7 +73,7 @@ Download and 3D Print [rpiclock.stl](rpiclock.stl) or design your own case.
 
 ### OS
 
-- Linux. The ubiquitous [Raspberry Pi OS](https://www.raspberrypi.org/software/operating-systems/) (formerly Raspbian) is quite of a bloat and slow to boot but otherwise works pretty well. Disable wait for network to speed up boot. Faster options are [Alpine](https://www.alpinelinux.org/), [piCore](http://www.tinycorelinux.net/13.x/armv6/releases/RPi/) or [instant-pi](https://github.com/IronOxidizer/instant-pi). [DietPi](https://dietpi.com/) despite promising name is actually quite slow to boot, likely due to Pigbian base.
+- Linux. The ubiquitous [Raspberry Pi OS](https://www.raspberrypi.org/software/operating-systems/) (formerly Raspbian) is quite of a bloat and slow to boot but otherwise works well. Disable wait for network to speed up boot. Faster options are [Alpine](https://www.alpinelinux.org/), [piCore](http://www.tinycorelinux.net/13.x/armv6/releases/RPi/) or [instant-pi](https://github.com/IronOxidizer/instant-pi). [DietPi](https://dietpi.com/) despite promising name is actually quite slow to boot, likely due to Pigbian base. Alpine allows easy config transfer between SD cards, doesn't require safe shutdown and it's way faster.
 
 - FreeBSD - maybe. Super slow to boot and no wlan support on rpi zero.
 
@@ -87,11 +87,14 @@ Check if Raspberry PI is not experiencing low voltage. You can run `vcgencmd get
 
 ### I2C Interface
 
-Make sure I2C interface is enabled. On Raspbian this is done using `raspi-config` under `Interface Options`. Run `i2cdetect -y 1`. It should show value `70` on position `70`.
+Make sure I2C interface is enabled. On Raspbian this is done using `raspi-config` under `Interface Options`. 
+On Alpine mount mmc boot partition and edit /boot/usercfg.txt (or config.txt). Add: `dtparam=i2c_arm=on`.
+
+Run `i2cdetect -y 1`. 
 
 ### WiFi, Locale, Timezone, DST, etc.
 
-Make sure to configure WiFi, Locale, Timezone and DST. On Raspbian this is done using `raspi-config`.
+Make sure to configure WiFi, Locale, Timezone and DST. On Raspbian this is done using `raspi-config`. On Alpine `setup-alpine`.
 
 ### NTP
 
@@ -107,7 +110,9 @@ I typically configure it for `pool.ntp.org` and my local wifi router, which has 
 
 Skip this if not using an RTC HAT.
 
-RTC/hwclock also depends on which OS you are using. Following instructions are for Raspbian:
+RTC/hwclock also depends on which OS you are using.
+
+#### Raspbian
 
 ```shell
 $ sudo apt install i2c-tools
@@ -124,6 +129,21 @@ if [ -e /run/systemd/system ] ; then
   exit 0
 fi
 ```
+
+#### Alpine
+
+Edit `/etc/apk/respositories` uncomment community repo. Mount mmc card under /boot.
+
+```shell
+$ sudo apk add i2c-tools
+$ sudo echo dtparam=i2c_arm=on >> /boot/usercfg.txt
+$ sudo echo dtoverlay=i2c-rtc,ds1307 >> /boot/usercfg.txt
+$ sudo echo i2c-dev >> /etc/modules
+$ sudo echo rtc-ds1307 >> /etc/modules
+$ sudo echo '5 *  *  * * *    root   /sbin/hwclock -w' >> /etc/crontab
+$ sudo lbu commit
+```
+
 
 Reboot, check if hwclock works:
 
