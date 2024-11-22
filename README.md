@@ -135,13 +135,13 @@ fi
 Edit `/etc/apk/respositories` uncomment community repo. Mount mmc card under /boot.
 
 ```shell
-$ sudo apk add i2c-tools
-$ sudo echo dtparam=i2c_arm=on >> /boot/usercfg.txt
-$ sudo echo dtoverlay=i2c-rtc,ds1307 >> /boot/usercfg.txt
-$ sudo echo i2c-dev >> /etc/modules
-$ sudo echo rtc-ds1307 >> /etc/modules
-$ sudo echo '5 *  *  * * *    root   /sbin/hwclock -w' >> /etc/crontab
-$ sudo lbu commit
+# apk add i2c-tools
+# echo dtparam=i2c_arm=on >> /boot/usercfg.txt
+# echo dtoverlay=i2c-rtc,ds1307 >> /boot/usercfg.txt
+# echo i2c-dev >> /etc/modules
+# echo rtc-ds1307 >> /etc/modules
+# echo '5       *       *       *       *       /sbin/hwclock -w' >> /etc/crontabs/root
+# lbu ci
 ```
 
 
@@ -163,6 +163,8 @@ $ sudo hwclock -w
 
 Download the binary from [Releases](https://github.com/tenox7/rpiclock/releases).
 
+#### Raspbian
+
 If using `systemd` Download [Service File](https://raw.githubusercontent.com/tenox7/rpiclock/main/rpiclock.service) and move in to `~/.config/systemd/user/rpiclock.service`. Make sure the right path to the binary is specified.
 
 ```shell
@@ -170,6 +172,14 @@ $ loginctl enable-linger $USER
 $ systemctl --user daemon-reload
 $ systemctl --user enable --now rpiclock.service
 ```
+
+#### Alpine
+
+```shell
+# setup-ntp chrony
+# echo allow 127.0.0.1 >> /etc/chrony/chrony.conf
+```
+
 
 ## References
 * [Adafruit Wiring and Setup](https://learn.adafruit.com/adafruit-led-backpack/python-wiring-and-setup-d74df15e-c55c-487a-acce-a905497ef9db)
