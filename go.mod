@@ -1,18 +1,20 @@
 module github.com/tenox7/rpiclock
 
-go 1.18
+go 1.22
+
+toolchain go1.23.0
 
 require (
-	github.com/beevik/ntp v0.3.0
+	github.com/beevik/ntp v1.4.3
 	github.com/jangler/microdotphat-go v0.0.0-20220528120630-ac28d075bff7
-	github.com/rafalop/sevensegment v0.0.0-20220501111324-57abbea36ab7
-	periph.io/x/conn/v3 v3.6.10
-	periph.io/x/host/v3 v3.7.2
+	github.com/rafalop/sevensegment v0.0.0-20230407112555-2f144c34733e
+	periph.io/x/conn/v3 v3.7.1
+	periph.io/x/host/v3 v3.8.2
 )
 
 require (
-	github.com/stretchr/testify v1.7.1 // indirect
-	golang.org/x/net v0.0.0-20220425223048-2871e0cb64e4 // indirect
-	golang.org/x/sys v0.0.0-20220422013727-9388b58f7150 // indirect
-	periph.io/x/periph v3.6.8+incompatible // indirect
+	github.com/stretchr/testify v1.9.0 // indirect
+	golang.org/x/net v0.31.0 // indirect
+	golang.org/x/sys v0.27.0 // indirect
+	periph.io/x/periph v3.7.0+incompatible // indirect
 )
