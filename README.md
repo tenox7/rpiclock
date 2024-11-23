@@ -81,9 +81,11 @@ Download and 3D Print [rpiclock.stl](rpiclock.stl) or design your own case.
 
 - Plan 9 - https://periph.io/ is not supported
 
+- RISC OS - maybe. Rewrite C required.
+
 ### Power
 
-Check if Raspberry PI is not experiencing low voltage. You can run `vcgencmd get_throttled`, it should return `0x0`.
+Check if Raspberry PI is not experiencing low voltage. You can run `vcgencmd get_throttled`, it should return `0x0`. On Alpine you need to install install `raspberrypi-utils`.
 
 ### I2C Interface
 
@@ -132,30 +134,35 @@ fi
 
 #### Alpine
 
-Edit `/etc/apk/respositories` uncomment community repo. Mount mmc card under /boot.
+Mount mmc card under /media/mmcxyz to write to usercfg.txt.
 
 ```shell
-# apk add i2c-tools
-# echo dtparam=i2c_arm=on >> /boot/usercfg.txt
-# echo dtoverlay=i2c-rtc,ds1307 >> /boot/usercfg.txt
+# echo dtparam=i2c_arm=on >> /media/mmcxyz/usercfg.txt
+# echo dtoverlay=i2c-rtc,ds1307 >> /media/mmcxyz/usercfg.txt
 # echo i2c-dev >> /etc/modules
 # echo rtc-ds1307 >> /etc/modules
 # echo '5       *       *       *       *       /sbin/hwclock -w' >> /etc/crontabs/root
-# lbu ci
+# echo -e "#!/bin/sh\nhwclock -s" >> /etc/local.d/hwclock.start
+# chmod 755 /etc/local.d/hwclock.start
+# rc-update add local default
+# lbu ci -d
 ```
 
+I create `/etc/local.d/hwclock.start` because `/etc/init.d/hwclock` never worked for me too well.
 
-Reboot, check if hwclock works:
-
-```shell
-$ i2cdetect -y 1
-```
-
-should show `UU` on position `68`.
+Reboot, check if hwclock works. Ideally this should be done before WiFi is configured so NTP won't interfere.
 
 ```shell
 $ sudo hwclock -r
-$ sudo hwclock -w
+```
+
+#### Troubleshooting
+
+```shell
+# lsmod | grep i2c
+# lsmod | grep ds1307
+# apk add --no-cache i2c-tools
+# i2cdetect -y 1
 ```
 
 
@@ -178,7 +185,13 @@ $ systemctl --user enable --now rpiclock.service
 ```shell
 # setup-ntp chrony
 # echo allow 127.0.0.1 >> /etc/chrony/chrony.conf
+# echo "makestep 1.0 3" >> /etc/chrony/chrony.conf
+# lbu ci -d
 ```
+
+TODO:
+- add service for alpine
+
 
 
 ## References
