@@ -73,7 +73,7 @@ Download and 3D Print [rpiclock.stl](rpiclock.stl) or design your own case.
 
 ### OS
 
-- Linux. The ubiquitous [Raspberry Pi OS](https://www.raspberrypi.org/software/operating-systems/) (formerly Raspbian) is quite of a bloat and slow to boot but otherwise works well. Disable wait for network to speed up boot. Faster options are [Alpine](https://www.alpinelinux.org/), [piCore](http://www.tinycorelinux.net/13.x/armv6/releases/RPi/) or [instant-pi](https://github.com/IronOxidizer/instant-pi). [DietPi](https://dietpi.com/) despite promising name is actually quite slow to boot, likely due to Pigbian base. Alpine allows easy config transfer between SD cards, doesn't require safe shutdown and it's way faster.
+- Linux. The ubiquitous [Raspberry Pi OS](https://www.raspberrypi.org/software/operating-systems/) (formerly Raspbian) is quite of a bloat and slow to boot but otherwise works well. Faster options are [Alpine](https://www.alpinelinux.org/), [piCore](http://www.tinycorelinux.net/13.x/armv6/releases/RPi/) or [instant-pi](https://github.com/IronOxidizer/instant-pi). [DietPi](https://dietpi.com/) despite promising name is actually quite slow to boot, likely due to Pigbian base. Alpine allows easy config transfer between SD cards, doesn't require safe shutdown and it's way faster.
 
 - FreeBSD - maybe. Super slow to boot and no wlan support on rpi zero.
 
@@ -142,20 +142,17 @@ Mount mmc card under /media/mmcblk0p1 to write to usercfg.txt.
 # echo dtoverlay=i2c-rtc,ds1307 >> /media/mmcblk0p1/usercfg.txt
 # echo i2c-dev >> /etc/modules
 # echo rtc-ds1307 >> /etc/modules
-# echo '5       *       *       *       *       /sbin/hwclock -w' >> /etc/crontabs/root
-# echo -e "#!/bin/sh\nhwclock -s" >> /etc/local.d/hwclock.start
+# echo '5       *       *       *       *       /sbin/hwclock -w -l' >> /etc/crontabs/root
+# echo -e "#!/bin/sh\nhwclock -s -l" >> /etc/local.d/hwclock.start
 # chmod 755 /etc/local.d/hwclock.start
 # rc-update add local default
+# sed -i 's/^clock="UTC"/clock="local"/' /etc/conf.d/hwclock
 # lbu ci -d
 ```
 
 I create `/etc/local.d/hwclock.start` because `/etc/init.d/hwclock` never worked for me too well. See https://gitlab.alpinelinux.org/alpine/alpine-conf/-/issues/10600
 
-Reboot, check if hwclock works. Ideally this should be done before WiFi is configured so NTP won't interfere.
-
-```shell
-$ sudo hwclock -r
-```
+Reboot, check if hwclock works. Ideally this should be done before WiFi is configured so NTP won't interfere with RTC testing.
 
 #### Troubleshooting
 
