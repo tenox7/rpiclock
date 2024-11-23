@@ -211,5 +211,4 @@ TODO:
 
 ## Legal
 
-* This is not an officially supported Google product.
-* Copyright &copy; 2021-2023 Google LLC
+* Copyright (c) 2024 by Antoni Sawicki
