@@ -1,0 +1,20 @@
+#!/sbin/openrc-run
+
+name="rpiclock"
+description="RPI Desktop Clock"
+command="/sbin/rpiclock"
+command_user="root"
+supervisor="supervise-daemon"
+supervise_daemon_args="--stdout /var/log/${name}.log --stderr /var/log/${name}.err"
+pidfile="/run/${RC_SVCNAME}.pid"
+
+depend() {
+    need net
+    need clock
+    after firewall
+}
+
+start_pre() {
+    checkpath --directory --owner $command_user:$command_user --mode 0755 \
+        /var/log
+}

@@ -134,11 +134,12 @@ fi
 
 #### Alpine
 
-Mount mmc card under /media/mmcxyz to write to usercfg.txt.
+Mount mmc card under /media/mmcblk0p1 to write to usercfg.txt.
 
 ```shell
-# echo dtparam=i2c_arm=on >> /media/mmcxyz/usercfg.txt
-# echo dtoverlay=i2c-rtc,ds1307 >> /media/mmcxyz/usercfg.txt
+# mount -o remount,rw /media/mmcblk0p1
+# echo dtparam=i2c_arm=on >> /media/mmcblk0p1/usercfg.txt
+# echo dtoverlay=i2c-rtc,ds1307 >> /media/mmcblk0p1/usercfg.txt
 # echo i2c-dev >> /etc/modules
 # echo rtc-ds1307 >> /etc/modules
 # echo '5       *       *       *       *       /sbin/hwclock -w' >> /etc/crontabs/root
@@ -148,7 +149,7 @@ Mount mmc card under /media/mmcxyz to write to usercfg.txt.
 # lbu ci -d
 ```
 
-I create `/etc/local.d/hwclock.start` because `/etc/init.d/hwclock` never worked for me too well.
+I create `/etc/local.d/hwclock.start` because `/etc/init.d/hwclock` never worked for me too well. See https://gitlab.alpinelinux.org/alpine/alpine-conf/-/issues/10600
 
 Reboot, check if hwclock works. Ideally this should be done before WiFi is configured so NTP won't interfere.
 
@@ -184,10 +185,15 @@ $ systemctl --user enable --now rpiclock.service
 
 ```shell
 # setup-ntp chrony
-# echo allow 127.0.0.1 >> /etc/chrony/chrony.conf
+# echo "allow 127.0.0.1" >> /etc/chrony/chrony.conf
 # echo "makestep 1.0 3" >> /etc/chrony/chrony.conf
+# wget -O /sbin/rpiclock https://github.com/tenox7/rpiclock/releases/download/1.1/rpiclock
+# chmod 755 /sbin/rpiclock
+# lbu include /sbin/rpiclock
 # lbu ci -d
 ```
+
+Once you're done with the setup, you can distribute ``/media/mmcblk0p1/hostname.apkovl.tar.gz` to other systems.
 
 TODO:
 - add service for alpine
