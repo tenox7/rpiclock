@@ -190,6 +190,10 @@ $ systemctl --user enable --now rpiclock.service
 # wget -O /sbin/rpiclock https://github.com/tenox7/rpiclock/releases/download/1.1/rpiclock
 # chmod 755 /sbin/rpiclock
 # lbu include /sbin/rpiclock
+# wget -O /etc/init.d/rpiclock https://raw.githubusercontent.com/tenox7/rpiclock/refs/heads/main/rpiclock.openrc
+# chmod 755 /sbin/rpiclock
+# rc-update add rpiclock default
+# rc-service rpiclock start
 # lbu ci -d
 ```
 
