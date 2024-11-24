@@ -120,13 +120,13 @@ func main() {
 	}()
 
 	ps := time.NewTicker(time.Second)
-	pm := time.NewTicker(time.Minute)
+	nT := time.NewTicker(*ntpq)
 	ph := time.NewTicker(time.Hour)
 	for {
 		select {
 		case <-ps.C:
 			r.tick()
-		case <-pm.C:
+		case <-nT.C:
 			go r.leap()
 		case <-ph.C:
 			r.bright()
