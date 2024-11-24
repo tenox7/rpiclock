@@ -112,7 +112,7 @@ func main() {
 	r := RPIClock{}
 	r.leap()
 	s := time.NewTicker(time.Second)
-	m := time.NewTicker(time.Second * 10)
+	m := time.NewTicker(time.Minute)
 	for {
 		select {
 		case <-m.C:
