@@ -25,11 +25,12 @@ var (
 	brNite = flag.Float64("br_nite", 0.3, "brightness during night 0.0-1.0")
 	hrDay  = flag.Int("hr_day", 6, "bright display / day start hour (24h)")
 	hrNite = flag.Int("hr_nite", 20, "dim display / nite start hour (24h)")
+	ntpq   = flag.Duration("ntpq", time.Minute, "ntp sync status query interval")
 	debug  = flag.Bool("debug", false, "debug logging")
 )
 
 type RPIClock struct {
-	l int
+	synchronized bool
 	sync.Mutex
 }
 
@@ -55,14 +56,14 @@ func (r *RPIClock) tick() {
 		sec = ":"
 	}
 	r.Lock()
-	l := r.l
+	syn := r.synchronized
 	r.Unlock()
 	switch {
-	case h > 11 && l < 3:
+	case h > 11 && syn:
 		ind = ":"
 	case h > 11:
 		ind = "'"
-	case l < 3:
+	case syn:
 		ind = "."
 	}
 	microdotphat.WriteString(fmt.Sprintf("%v%02d%v%02d", ind, a, sec, m), 0, 0, false)
@@ -85,12 +86,12 @@ func (_ *RPIClock) clear() {
 func (r *RPIClock) leap() {
 	n, err := ntp.Query("127.0.0.1")
 	r.Mutex.Lock()
-	defer func() { slog.Debug(fmt.Sprintf("ntp: leap=%v err=%v", r.l, err)); r.Mutex.Unlock() }()
-	if err != nil {
-		r.l = 4
+	defer func() { slog.Debug(fmt.Sprintf("ntp: sync=%v err=%v", r.synchronized, err)); r.Mutex.Unlock() }()
+	if err != nil || n.Leap > 2 {
+		r.synchronized = false
 		return
 	}
-	r.l = int(n.Leap)
+	r.synchronized = true
 }
 
 func main() {
