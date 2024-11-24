@@ -90,19 +90,13 @@ func main() {
 		clear()
 	}()
 
-	n := make(chan int)
-	go func(c chan<- int) {
-		for {
-			c <- leap()
-			time.Sleep(60 * time.Second)
-		}
-	}(n)
-
-	l := 0
+	l := leap()
 	s := time.NewTicker(time.Second)
+	m := time.NewTicker(time.Minute)
 	for {
 		select {
-		case l = <-n:
+		case <-m.C:
+			l = leap()
 		case <-s.C:
 			tick(l)
 		}
