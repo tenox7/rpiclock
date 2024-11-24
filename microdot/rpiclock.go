@@ -69,11 +69,12 @@ func (r *RPIClock) tick() {
 	err := microdotphat.Show()
 	if err != nil {
 		slog.Error(err.Error())
-		clear()
+		r.clear()
 	}
 }
 
-func clear() {
+func (_ *RPIClock) clear() {
+	slog.Debug("clearing display")
 	microdotphat.Clear()
 	microdotphat.Show()
 	time.Sleep(time.Millisecond)
@@ -106,16 +107,17 @@ func main() {
 	}
 	microdotphat.SetMirror(true, true)
 
+	r := RPIClock{}
+	r.leap()
+	r.bright()
+
 	c := make(chan os.Signal)
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 	go func() {
 		<-c
-		clear()
+		r.clear()
 	}()
 
-	r := RPIClock{}
-	r.leap()
-	r.bright()
 	ps := time.NewTicker(time.Second)
 	pm := time.NewTicker(time.Minute)
 	ph := time.NewTicker(time.Hour)
