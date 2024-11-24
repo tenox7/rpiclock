@@ -16,9 +16,15 @@ import (
 	"github.com/jangler/microdotphat-go"
 )
 
+// TODO
+// - 24 hours as flag
+// - leap -> status synchronized as bool
+
 var (
 	brDay  = flag.Float64("br_day", 1.0, "brightness during day 0.0-1.0")
 	brNite = flag.Float64("br_nite", 0.3, "brightness during night 0.0-1.0")
+	hrDay  = flag.Int("hr_day", 6, "bright display / day start hour (24h)")
+	hrNite = flag.Int("hr_nite", 20, "dim display / nite start hour (24h)")
 	debug  = flag.Bool("debug", false, "debug logging")
 )
 
@@ -30,7 +36,7 @@ type RPIClock struct {
 func (_ *RPIClock) bright() {
 	h := time.Now().Local().Hour()
 	b := *brNite
-	if h > 6 && h < 20 {
+	if h > *hrDay && h < *hrNite {
 		b = *brDay
 	}
 	microdotphat.SetBrightness(b)
