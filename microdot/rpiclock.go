@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"log/slog"
 	"os"
 	"os/signal"
 	"sync"
@@ -18,6 +19,7 @@ import (
 var (
 	brDay  = flag.Float64("br_day", 1.0, "brightness during day 0.0-1.0")
 	brNite = flag.Float64("br_nite", 0.3, "brightness during night 0.0-1.0")
+	debug  = flag.Bool("debug", false, "debug logging")
 )
 
 type RPIClock struct {
@@ -61,7 +63,7 @@ func (r *RPIClock) tick() {
 	microdotphat.WriteString(fmt.Sprintf("%v%02d%v%02d", ind, a, sec, m), 0, 0, false)
 	err := microdotphat.Show()
 	if err != nil {
-		log.Println(err)
+		slog.Error(err.Error())
 		clear()
 	}
 }
@@ -74,16 +76,24 @@ func clear() {
 	os.Exit(0)
 }
 
-func leap() int {
-	r, err := ntp.Query("127.0.0.1")
+func (r *RPIClock) leap() {
+	n, err := ntp.Query("127.0.0.1")
+	r.Mutex.Lock()
+	defer func() { slog.Debug(fmt.Sprintf("ntp: leap=%v err=%v", r.l, err)); r.Mutex.Unlock() }()
 	if err != nil {
-		return 3
+		r.l = 4
+		return
 	}
-	return int(r.Leap)
+	r.l = int(n.Leap)
 }
 
 func main() {
 	flag.Parse()
+	if *debug {
+		slog.SetLogLoggerLevel(slog.LevelDebug)
+	}
+	slog.Debug("RPI Clock Starting Up")
+	slog.Debug("Using Pimoroni Micro Dot pHAT with Lite-On LTP-305")
 
 	err := microdotphat.Open("")
 	if err != nil {
