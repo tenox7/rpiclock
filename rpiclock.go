@@ -66,29 +66,24 @@ func main() {
 	d := sevensegment.NewSevenSegment(0x70)
 	bright(d, time.Now().Local().Hour())
 
+	l := leap()
 	s := time.NewTicker(time.Second)
+	m := time.NewTicker(time.Minute)
 	c := make(chan os.Signal)
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 	go func() {
 		<-c
 		s.Stop()
+		m.Stop()
 		d.Clear()
 		d.WriteData()
 		os.Exit(0)
 	}()
 
-	n := make(chan int)
-	go func(c chan<- int) {
-		for {
-			c <- leap()
-			time.Sleep(60 * time.Second)
-		}
-	}(n)
-
-	l := 0
 	for {
 		select {
-		case l = <-n:
+		case <-m.C:
+			l = leap()
 		case <-s.C:
 			tick(d, l)
 		}
