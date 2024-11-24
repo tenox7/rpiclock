@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"sync"
 	"syscall"
 	"time"
 
@@ -19,6 +20,11 @@ var (
 	brNite = flag.Float64("br_nite", 0.3, "brightness during night 0.0-1.0")
 )
 
+type RPIClock struct {
+	l int
+	sync.Mutex
+}
+
 func bright(h int) {
 	b := *brNite
 	if h > 6 && h < 20 {
@@ -27,7 +33,7 @@ func bright(h int) {
 	microdotphat.SetBrightness(b)
 }
 
-func tick(l int) {
+func (r *RPIClock) tick() {
 	h, m, s := time.Now().Local().Clock()
 	a := h % 12
 	if a == 0 {
@@ -38,6 +44,9 @@ func tick(l int) {
 	if (s % 2) == 0 {
 		sec = ":"
 	}
+	r.Lock()
+	l := r.l
+	r.Unlock()
 	switch {
 	case h > 11 && l < 3:
 		ind = ":"
@@ -90,15 +99,16 @@ func main() {
 		clear()
 	}()
 
-	l := leap()
+	r := RPIClock{}
+	r.leap()
 	s := time.NewTicker(time.Second)
-	m := time.NewTicker(time.Minute)
+	m := time.NewTicker(time.Second * 10)
 	for {
 		select {
 		case <-m.C:
-			l = leap()
+			go r.leap()
 		case <-s.C:
-			tick(l)
+			r.tick()
 		}
 	}
 }
