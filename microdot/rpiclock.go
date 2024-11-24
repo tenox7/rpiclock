@@ -27,12 +27,14 @@ type RPIClock struct {
 	sync.Mutex
 }
 
-func bright(h int) {
+func (_ *RPIClock) bright() {
+	h := time.Now().Local().Hour()
 	b := *brNite
 	if h > 6 && h < 20 {
 		b = *brDay
 	}
 	microdotphat.SetBrightness(b)
+	slog.Debug(fmt.Sprintf("bright: val=%v", b))
 }
 
 func (r *RPIClock) tick() {
@@ -56,9 +58,6 @@ func (r *RPIClock) tick() {
 		ind = "'"
 	case l < 3:
 		ind = "."
-	}
-	if m == 0 && s == 0 {
-		bright(h)
 	}
 	microdotphat.WriteString(fmt.Sprintf("%v%02d%v%02d", ind, a, sec, m), 0, 0, false)
 	err := microdotphat.Show()
@@ -100,7 +99,6 @@ func main() {
 		log.Fatal(err)
 	}
 	microdotphat.SetMirror(true, true)
-	bright(time.Now().Local().Hour())
 
 	c := make(chan os.Signal)
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
@@ -111,14 +109,18 @@ func main() {
 
 	r := RPIClock{}
 	r.leap()
-	s := time.NewTicker(time.Second)
-	m := time.NewTicker(time.Minute)
+	r.bright()
+	ps := time.NewTicker(time.Second)
+	pm := time.NewTicker(time.Minute)
+	ph := time.NewTicker(time.Hour)
 	for {
 		select {
-		case <-m.C:
-			go r.leap()
-		case <-s.C:
+		case <-ps.C:
 			r.tick()
+		case <-pm.C:
+			go r.leap()
+		case <-ph.C:
+			r.bright()
 		}
 	}
 }
