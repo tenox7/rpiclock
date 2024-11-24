@@ -117,16 +117,13 @@ I typically configure it for `pool.ntp.org` and my local wifi router, which has 
 
 Skip this if not using an RTC HAT.
 
-RTC/hwclock also depends on which OS you are using.
-
 #### Raspbian
 
 ```shell
-$ sudo apt install i2c-tools
 $ sudo apt remove fake-hwclock
 $ sudo echo dtoverlay=i2c-rtc,ds1307 >> /boot/config.txt
 $ sudo echo rtc-ds1307 >> /etc/modules
-$ sudo echo '5 *  *  * * *    root   /sbin/hwclock -w' >> /etc/crontab
+$ sudo echo '5 * * * * *    root   /sbin/hwclock -w' >> /etc/crontab
 ```
 
 Edit `/lib/udev/hwclock-set`, remove following lines:
@@ -147,17 +144,13 @@ Mount mmc card under /media/mmcblk0p1 to write to usercfg.txt.
 # echo dtoverlay=i2c-rtc,ds1307 >> /media/mmcblk0p1/usercfg.txt
 # echo i2c-dev >> /etc/modules
 # echo rtc-ds1307 >> /etc/modules
-# echo '5       *       *       *       *       /sbin/hwclock -w -l' >> /etc/crontabs/root
-# echo -e "#!/bin/sh\nhwclock -s -l" >> /etc/local.d/hwclock.start
-# chmod 755 /etc/local.d/hwclock.start
-# rc-update add local default
+# echo '5 * * * * /sbin/hwclock -w -l' >> /etc/crontabs/root
 # sed -i 's/^clock="UTC"/clock="local"/' /etc/conf.d/hwclock
+# rc-update del swclock boot
 # lbu ci -d
 ```
 
-I create `/etc/local.d/hwclock.start` because `/etc/init.d/hwclock` never worked for me too well. See https://gitlab.alpinelinux.org/alpine/alpine-conf/-/issues/10600
-
-Reboot, check if hwclock works. Ideally this should be done before WiFi is configured so NTP won't interfere with RTC testing.
+Reboot, check if hwclock works. Ideally this should be done before WiFi is configured so NTP won't interfere with RTC testing. You can also disable chrony from start on boot to test.
 
 #### Troubleshooting
 
@@ -201,11 +194,6 @@ $ systemctl --user enable --now rpiclock.service
 ```
 
 Once you're done with the setup, you can distribute ``/media/mmcblk0p1/hostname.apkovl.tar.gz` to other systems.
-
-TODO:
-- add service for alpine
-
-
 
 ## References
 * [Adafruit Wiring and Setup](https://learn.adafruit.com/adafruit-led-backpack/python-wiring-and-setup-d74df15e-c55c-487a-acce-a905497ef9db)
