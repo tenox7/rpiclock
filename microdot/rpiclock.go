@@ -18,7 +18,6 @@ import (
 
 // TODO
 // - 24 hours as flag
-// - leap -> status synchronized as bool
 
 var (
 	brDay  = flag.Float64("br_day", 1.0, "brightness during day 0.0-1.0")
@@ -83,7 +82,7 @@ func (_ *RPIClock) clear() {
 	os.Exit(0)
 }
 
-func (r *RPIClock) leap() {
+func (r *RPIClock) ntpq() {
 	n, err := ntp.Query("127.0.0.1")
 	r.Mutex.Lock()
 	defer func() { slog.Debug(fmt.Sprintf("ntp: sync=%v err=%v", r.synchronized, err)); r.Mutex.Unlock() }()
@@ -109,7 +108,7 @@ func main() {
 	microdotphat.SetMirror(true, true)
 
 	r := RPIClock{}
-	r.leap()
+	r.ntpq()
 	r.bright()
 
 	c := make(chan os.Signal)
@@ -119,16 +118,16 @@ func main() {
 		r.clear()
 	}()
 
-	ps := time.NewTicker(time.Second)
+	tT := time.NewTicker(time.Second)
 	nT := time.NewTicker(*ntpq)
-	ph := time.NewTicker(time.Hour)
+	bT := time.NewTicker(time.Hour)
 	for {
 		select {
-		case <-ps.C:
+		case <-tT.C:
 			r.tick()
 		case <-nT.C:
-			go r.leap()
-		case <-ph.C:
+			go r.ntpq()
+		case <-bT.C:
 			r.bright()
 		}
 	}
