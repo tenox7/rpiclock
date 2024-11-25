@@ -16,10 +16,8 @@ import (
 	"github.com/jangler/microdotphat-go"
 )
 
-// TODO
-// - 24 hours as flag
-
 var (
+	t24h   = flag.Bool("t24h", false, "use 24h time format")
 	brDay  = flag.Float64("br_day", 1.0, "brightness during day 0.0-1.0")
 	brNite = flag.Float64("br_nite", 0.3, "brightness during night 0.0-1.0")
 	hrDay  = flag.Int("hr_day", 6, "bright display / day start hour (24h)")
@@ -45,10 +43,14 @@ func (_ *RPIClock) bright() {
 
 func (r *RPIClock) tick() {
 	h, m, s := time.Now().Local().Clock()
-	a := h % 12
-	if a == 0 {
-		a = 12
+	a := h
+	if !*t24h {
+		a = h % 12
+		if a == 0 {
+			a = 12
+		}
 	}
+	slog.Debug(fmt.Sprintf("tick: 24h=%v a=%v", *t24h, a))
 	ind := " "
 	sec := " "
 	if (s % 2) == 0 {
