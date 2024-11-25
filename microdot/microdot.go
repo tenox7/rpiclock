@@ -1,3 +1,5 @@
+// rpiclock driver for Pimoroni Micro Dot pHAT with Lite-On LTP-305
+// https://shop.pimoroni.com/en-us/products/microdot-phat
 package main
 
 import (
