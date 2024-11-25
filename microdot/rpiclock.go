@@ -1,4 +1,3 @@
-// rpiclock for Pimoroni Micro Dot pHAT with Lite-On LTP-305
 package main
 
 import (
@@ -13,7 +12,6 @@ import (
 	"time"
 
 	"github.com/beevik/ntp"
-	"github.com/jangler/microdotphat-go"
 )
 
 var (
@@ -23,22 +21,21 @@ var (
 	hrDay  = flag.Int("hr_day", 6, "bright display / day start hour (24h)")
 	hrNite = flag.Int("hr_nite", 20, "dim display / nite start hour (24h)")
 	ntpq   = flag.Duration("ntpq", time.Minute, "ntp sync status query interval")
+	dspDrv = flag.String("disp", "microdot", "display driver: microdot")
 	debug  = flag.Bool("debug", false, "debug logging")
 )
 
-type RPIClock struct {
-	synchronized bool
-	sync.Mutex
+type DisplayDriver interface {
+	Init() error
+	Close()
+	Bright()
+	Write(string) error
 }
 
-func (_ *RPIClock) bright() {
-	h := time.Now().Local().Hour()
-	b := *brNite
-	if h > *hrDay && h < *hrNite {
-		b = *brDay
-	}
-	microdotphat.SetBrightness(b)
-	slog.Debug(fmt.Sprintf("bright: val=%v", b))
+type RPIClock struct {
+	disp    DisplayDriver
+	ntpSync bool
+	sync.Mutex
 }
 
 func (r *RPIClock) tick() {
@@ -50,14 +47,13 @@ func (r *RPIClock) tick() {
 			a = 12
 		}
 	}
-	slog.Debug(fmt.Sprintf("tick: 24h=%v a=%v", *t24h, a))
 	ind := " "
 	sec := " "
 	if (s % 2) == 0 {
 		sec = ":"
 	}
 	r.Lock()
-	syn := r.synchronized
+	syn := r.ntpSync
 	r.Unlock()
 	switch {
 	case h > 11 && syn:
@@ -67,32 +63,25 @@ func (r *RPIClock) tick() {
 	case syn:
 		ind = "."
 	}
-	microdotphat.WriteString(fmt.Sprintf("%v%02d%v%02d", ind, a, sec, m), 0, 0, false)
-	err := microdotphat.Show()
+	err := r.disp.Write(fmt.Sprintf("%v%02d%v%02d", ind, a, sec, m))
 	if err != nil {
-		slog.Error(err.Error())
-		r.clear()
+		r.disp.Close()
+		log.Fatal(err)
 	}
 }
 
-func (_ *RPIClock) clear() {
-	slog.Debug("clearing display")
-	microdotphat.Clear()
-	microdotphat.Show()
-	time.Sleep(time.Millisecond)
-	microdotphat.Close()
-	os.Exit(0)
-}
-
-func (r *RPIClock) ntpq() {
+func (r *RPIClock) ntpCheck() {
 	n, err := ntp.Query("127.0.0.1")
 	r.Mutex.Lock()
-	defer func() { slog.Debug(fmt.Sprintf("ntp: sync=%v err=%v", r.synchronized, err)); r.Mutex.Unlock() }()
+	defer func() {
+		slog.Debug(fmt.Sprintf("ntp: sync=%v err=%v", r.ntpSync, err))
+		r.Mutex.Unlock()
+	}()
 	if err != nil || n.Leap > 2 {
-		r.synchronized = false
+		r.ntpSync = false
 		return
 	}
-	r.synchronized = true
+	r.ntpSync = true
 }
 
 func main() {
@@ -101,23 +90,28 @@ func main() {
 		slog.SetLogLoggerLevel(slog.LevelDebug)
 	}
 	slog.Debug("RPI Clock Starting Up")
-	slog.Debug("Using Pimoroni Micro Dot pHAT with Lite-On LTP-305")
-
-	err := microdotphat.Open("")
-	if err != nil {
-		log.Fatal(err)
-	}
-	microdotphat.SetMirror(true, true)
 
 	r := RPIClock{}
-	r.ntpq()
-	r.bright()
+	r.ntpCheck()
+
+	switch *dspDrv {
+	case "microdot":
+		r.disp = &MicroDot{}
+	default:
+		log.Fatalf("unsupported display driver: %v", *dspDrv)
+	}
+	err := r.disp.Init()
+	if err != nil {
+		log.Fatalf("Unable to initialize %v: %v", *dspDrv, err)
+	}
+	r.disp.Bright()
 
 	c := make(chan os.Signal)
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 	go func() {
 		<-c
-		r.clear()
+		r.disp.Close()
+		os.Exit(0)
 	}()
 
 	tT := time.NewTicker(time.Second)
@@ -128,9 +122,9 @@ func main() {
 		case <-tT.C:
 			r.tick()
 		case <-nT.C:
-			go r.ntpq()
+			go r.ntpCheck()
 		case <-bT.C:
-			r.bright()
+			r.disp.Bright()
 		}
 	}
 }
