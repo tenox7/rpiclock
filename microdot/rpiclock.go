@@ -15,7 +15,7 @@ import (
 )
 
 var (
-	t24h   = flag.Bool("t24h", false, "use 24h time format")
+	t24h   = flag.Bool("24h", false, "use 24h time format")
 	brDay  = flag.Int("br_day", 100, "brightness during day 0-100")
 	brNite = flag.Int("br_nite", 30, "brightness during night 0-100")
 	hrDay  = flag.Int("hr_day", 6, "bright display / day start hour (24h)")
@@ -29,59 +29,48 @@ type DisplayDriver interface {
 	Open() error
 	Close()
 	Bright()
-	Write(string) error
+	DispTime(h, m, s int, pm, syn bool)
 }
 
 type RPIClock struct {
-	disp    DisplayDriver
-	ntpSync bool
+	disp       DisplayDriver
+	ntpIsSynch bool
 	sync.Mutex
 }
 
-func (r *RPIClock) tick() {
-	h, m, s := time.Now().Local().Clock()
-	a := h
-	if !*t24h {
-		a = h % 12
-		if a == 0 {
-			a = 12
-		}
-	}
-	ind := " "
-	sec := " "
-	if (s % 2) == 0 {
-		sec = ":"
-	}
+func (r *RPIClock) ntpSync() bool {
 	r.Lock()
-	syn := r.ntpSync
-	r.Unlock()
-	switch {
-	case h > 11 && syn:
-		ind = ":"
-	case h > 11:
-		ind = "'"
-	case syn:
-		ind = "."
-	}
-	err := r.disp.Write(fmt.Sprintf("%v%02d%v%02d", ind, a, sec, m))
-	if err != nil {
-		r.disp.Close()
-		log.Fatal(err)
-	}
+	defer r.Unlock()
+	return r.ntpIsSynch
 }
 
 func (r *RPIClock) ntpCheck() {
 	n, err := ntp.Query("127.0.0.1")
 	r.Mutex.Lock()
 	defer func() {
-		slog.Debug(fmt.Sprintf("ntp: sync=%v err=%v", r.ntpSync, err))
+		slog.Debug(fmt.Sprintf("ntp: sync=%v err=%v", r.ntpIsSynch, err))
 		r.Mutex.Unlock()
 	}()
 	if err != nil || n.Leap > 2 {
-		r.ntpSync = false
+		r.ntpIsSynch = false
 		return
 	}
-	r.ntpSync = true
+	r.ntpIsSynch = true
+}
+
+func (r *RPIClock) tick() {
+	h, m, s := time.Now().Local().Clock()
+	pm := false
+	if h > 11 {
+		pm = true
+	}
+	if !*t24h {
+		h = h % 12
+		if h == 0 {
+			h = 12
+		}
+	}
+	r.disp.DispTime(h, m, s, pm, r.ntpSync())
 }
 
 func main() {

@@ -4,6 +4,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"log/slog"
 	"time"
 
@@ -42,7 +43,24 @@ func (*MicroDot) Close() {
 	microdotphat.Close()
 }
 
-func (d *MicroDot) Write(s string) error {
-	microdotphat.WriteString(s, 0, 0, false)
-	return microdotphat.Show()
+func (d *MicroDot) DispTime(h, m, s int, pm, syn bool) {
+	ind := " "
+	sec := " "
+	if (s % 2) == 0 {
+		sec = ":"
+	}
+	switch {
+	case pm && syn:
+		ind = ":"
+	case pm:
+		ind = "'"
+	case syn:
+		ind = "."
+	}
+	microdotphat.WriteString(fmt.Sprintf("%v%02d%v%02d", ind, h, sec, m), 0, 0, false)
+	err := microdotphat.Show()
+	if err != nil {
+		d.Close()
+		log.Fatal(err)
+	}
 }
