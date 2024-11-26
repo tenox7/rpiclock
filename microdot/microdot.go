@@ -12,7 +12,7 @@ import (
 
 type MicroDot struct{}
 
-func (*MicroDot) Init() error {
+func (*MicroDot) Open() error {
 	slog.Debug("driver: Pimoroni Micro Dot pHAT with Lite-On LTP-305")
 
 	err := microdotphat.Open("")

@@ -26,7 +26,7 @@ var (
 )
 
 type DisplayDriver interface {
-	Init() error
+	Open() error
 	Close()
 	Bright()
 	Write(string) error
@@ -100,7 +100,7 @@ func main() {
 	default:
 		log.Fatalf("unsupported display driver: %v", *dspDrv)
 	}
-	err := r.disp.Init()
+	err := r.disp.Open()
 	if err != nil {
 		log.Fatalf("Unable to initialize %v: %v", *dspDrv, err)
 	}
