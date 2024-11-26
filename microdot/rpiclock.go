@@ -16,8 +16,8 @@ import (
 
 var (
 	t24h   = flag.Bool("t24h", false, "use 24h time format")
-	brDay  = flag.Float64("br_day", 1.0, "brightness during day 0.0-1.0")
-	brNite = flag.Float64("br_nite", 0.3, "brightness during night 0.0-1.0")
+	brDay  = flag.Int("br_day", 100, "brightness during day 0-100")
+	brNite = flag.Int("br_nite", 30, "brightness during night 0-100")
 	hrDay  = flag.Int("hr_day", 6, "bright display / day start hour (24h)")
 	hrNite = flag.Int("hr_nite", 20, "dim display / nite start hour (24h)")
 	ntpq   = flag.Duration("ntpq", time.Minute, "ntp sync status query interval")

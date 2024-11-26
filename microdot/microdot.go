@@ -29,8 +29,10 @@ func (*MicroDot) Bright() {
 	if h > *hrDay && h < *hrNite {
 		b = *brDay
 	}
-	microdotphat.SetBrightness(b)
-	slog.Debug(fmt.Sprintf("bright: val=%v", b))
+	// range 0.0-1.0
+	br := float64(b) * 0.01
+	microdotphat.SetBrightness(br)
+	slog.Debug(fmt.Sprintf("bright: val=%0.2f", br))
 }
 
 func (*MicroDot) Close() {
