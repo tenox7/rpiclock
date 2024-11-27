@@ -1,91 +1,119 @@
-// rpiclock for Adafruit seven segment LED display with backpack (HT16K33)
 package main
 
 import (
 	"flag"
+	"fmt"
+	"log"
+	"log/slog"
 	"os"
 	"os/signal"
+	"sync"
 	"syscall"
 	"time"
 
 	"github.com/beevik/ntp"
-	"github.com/rafalop/sevensegment"
 )
 
 var (
-	brDay  = flag.Int("br_day", 15, "brightness during day 0..15")
-	brNite = flag.Int("br_nite", 0, "brightness during night 0..15")
+	t24h   = flag.Bool("24h", false, "use 24h time format")
+	brDay  = flag.Int("br_day", 100, "brightness during day 0-100")
+	brNite = flag.Int("br_nite", 30, "brightness during night 0-100")
+	hrDay  = flag.Int("hr_day", 6, "bright display / day start hour (24h)")
+	hrNite = flag.Int("hr_nite", 20, "dim display / nite start hour (24h)")
+	ntpq   = flag.Duration("ntpq", time.Minute, "ntp sync status query interval")
+	dspDrv = flag.String("disp", "microdot", "display driver: microdot")
+	debug  = flag.Bool("debug", false, "debug logging")
 )
 
-func bright(d *sevensegment.SevenSegment, h int) {
-	b := *brNite
-	if h > 6 && h < 20 {
-		b = *brDay
-	}
-	d.SetBrightness(b)
+type DisplayDriver interface {
+	Open() error
+	Close()
+	Bright()
+	DispTime(h, m, s int, pm, syn bool)
 }
 
-func tick(d *sevensegment.SevenSegment, l int) {
+type RPIClock struct {
+	disp       DisplayDriver
+	ntpIsSynch bool
+	sync.Mutex
+}
+
+func (r *RPIClock) ntpSync() bool {
+	r.Lock()
+	defer r.Unlock()
+	return r.ntpIsSynch
+}
+
+func (r *RPIClock) ntpCheck() {
+	n, err := ntp.Query("127.0.0.1")
+	r.Mutex.Lock()
+	defer func() {
+		slog.Debug(fmt.Sprintf("ntp: sync=%v err=%v", r.ntpIsSynch, err))
+		r.Mutex.Unlock()
+	}()
+	if err != nil || n.Leap > 2 {
+		r.ntpIsSynch = false
+		return
+	}
+	r.ntpIsSynch = true
+}
+
+func (r *RPIClock) tick() {
 	h, m, s := time.Now().Local().Clock()
-	a := h % 12
-	if a == 0 {
-		a = 12
-	}
-	d.SetNum((a * 100) + m)
-
-	var sg [7]bool
-	if (s % 2) == 0 {
-		sg[sevensegment.IndMidTop] = true
-		sg[sevensegment.IndMidBtt] = true
-	}
+	pm := false
 	if h > 11 {
-		sg[sevensegment.IndLeftTop] = true
+		pm = true
 	}
-	if l < 3 {
-		sg[sevensegment.IndLeftBtt] = true
+	if !*t24h {
+		h = h % 12
+		if h == 0 {
+			h = 12
+		}
 	}
-	d.SetSegments(4, sg)
-
-	if m == 0 && s == 0 {
-		bright(d, h)
-	}
-
-	d.WriteData()
-}
-
-func leap() int {
-	r, err := ntp.Query("127.0.0.1")
-	if err != nil {
-		return 3
-	}
-	return int(r.Leap)
+	r.disp.DispTime(h, m, s, pm, r.ntpSync())
 }
 
 func main() {
 	flag.Parse()
-	d := sevensegment.NewSevenSegment(0x70)
-	bright(d, time.Now().Local().Hour())
+	if *debug {
+		slog.SetLogLoggerLevel(slog.LevelDebug)
+	}
+	slog.Debug("RPI Clock Starting Up")
 
-	l := leap()
-	s := time.NewTicker(time.Second)
-	m := time.NewTicker(time.Minute)
+	r := RPIClock{}
+	r.ntpCheck()
+
+	switch *dspDrv {
+	case "microdot":
+		r.disp = &MicroDot{}
+	default:
+		log.Fatalf("unsupported display driver: %v", *dspDrv)
+	}
+	err := r.disp.Open()
+	if err != nil {
+		log.Fatalf("Unable to initialize %v: %v", *dspDrv, err)
+	}
+	r.disp.Bright()
+
 	c := make(chan os.Signal)
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 	go func() {
 		<-c
-		s.Stop()
-		m.Stop()
-		d.Clear()
-		d.WriteData()
+		r.disp.Close()
 		os.Exit(0)
 	}()
 
+	tT := time.NewTicker(time.Second)
+	nT := time.NewTicker(*ntpq)
+	bT := time.NewTicker(time.Hour)
 	for {
 		select {
-		case <-m.C:
-			l = leap()
-		case <-s.C:
-			tick(d, l)
+		case <-tT.C:
+			r.tick()
+		case <-nT.C:
+			go r.ntpCheck()
+		case <-bT.C:
+			r.disp.Bright()
 		}
 	}
 }
