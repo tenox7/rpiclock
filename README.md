@@ -29,7 +29,7 @@ With LED dot NTP synchronization indicator...
 * RPi `3.3V` to 7-Segment Display `IO` (V_IO)
 * RPi `5V` to 7-Segment Display `+` (+5V)
 * RPi `GND` to 7-Segment Display `-` (GND)
-* RPi `SCL` to 7-Segment Display `C` (SCL) 
+* RPi `SCL` to 7-Segment Display `C` (SCL)
 * RPi `SDA` to 7-Segment Display `D` (SDA)
 
 ![Wiring Diagram](rpiclock_wiring.png)
@@ -74,8 +74,8 @@ Download and 3D Print [rpiclock.stl](rpiclock.stl) or design your own case.
 ### OS
 
 - Linux
-  - [Raspberry Pi OS](https://www.raspberrypi.org/software/operating-systems/) (formerly Raspbian), ubiquitous but is quite of a bloat and slow to boot, but otherwise works well, safe choice. 
-  - [Alpine](https://www.alpinelinux.org/) easy config transfer between SD cards, doesn't require safe shutdown, is way faster and not bloated.
+  - [Raspberry Pi OS](https://www.raspberrypi.org/software/operating-systems/) (formerly Raspbian), ubiquitous but is quite of a bloat and slow to boot, but otherwise works well, safe choice.
+  - [Alpine](https://www.alpinelinux.org/) easy config transfer between SD cards, doesn't require shutdown, smaller, faster and not bloated. My personal choice.
   - [piCore](http://www.tinycorelinux.net/13.x/armv6/releases/RPi/).
   - [instant-pi](https://github.com/IronOxidizer/instant-pi).
   - [DietPi](https://dietpi.com/) despite promising name is actually quite slow to boot, likely due to Pigbian base.
@@ -94,10 +94,10 @@ Check if Raspberry PI is not experiencing low voltage. You can run `vcgencmd get
 
 ### I2C Interface
 
-Make sure I2C interface is enabled. On Raspbian this is done using `raspi-config` under `Interface Options`. 
+Make sure I2C interface is enabled. On Raspbian this is done using `raspi-config` under `Interface Options`.
 On Alpine mount mmc boot partition and edit /boot/usercfg.txt (or config.txt). Add: `dtparam=i2c_arm=on`.
 
-Run `i2cdetect -y 1`. 
+Run `i2cdetect -y 1`.
 
 ### WiFi, Locale, Timezone, DST, etc.
 
