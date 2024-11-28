@@ -193,6 +193,8 @@ Setup NTP:
 # setup-ntp chrony
 # echo "allow 127.0.0.1" >> /etc/chrony/chrony.conf
 # echo "makestep 1.0 3" >> /etc/chrony/chrony.conf
+# rc-service chronyd restart
+# lbu ci -d
 ```
 
 RPIClock service:
