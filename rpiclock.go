@@ -38,7 +38,7 @@ type RPIClock struct {
 	sync.Mutex
 }
 
-func (r *RPIClock) ntpSync() bool {
+func (r *RPIClock) ntpStat() bool {
 	r.Lock()
 	defer r.Unlock()
 	return r.ntpIsSynch
@@ -70,7 +70,7 @@ func (r *RPIClock) tick() {
 			h = 12
 		}
 	}
-	r.disp.DispTime(h, m, s, pm, r.ntpSync())
+	r.disp.DispTime(h, m, s, pm, r.ntpStat())
 }
 
 func main() {
