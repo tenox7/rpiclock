@@ -13,8 +13,6 @@ require (
 )
 
 require (
-	github.com/stretchr/testify v1.9.0 // indirect
 	golang.org/x/net v0.31.0 // indirect
 	golang.org/x/sys v0.27.0 // indirect
-	periph.io/x/periph v3.7.0+incompatible // indirect
 )
