@@ -21,7 +21,7 @@ var (
 	hrDay  = flag.Int("hr_day", 6, "bright display / day start hour (24h)")
 	hrNite = flag.Int("hr_nite", 20, "dim display / nite start hour (24h)")
 	ntpq   = flag.Duration("ntpq", time.Minute, "ntp sync status query interval")
-	dspDrv = flag.String("disp", "microdot", "display driver: microdot")
+	dspDrv = flag.String("disp", "sevensegment", "display driver: sevensegment|microdot")
 	debug  = flag.Bool("debug", false, "debug logging")
 )
 
@@ -84,6 +84,8 @@ func main() {
 	r.ntpCheck()
 
 	switch *dspDrv {
+	case "sevensegment":
+		r.disp = &SevenSeg{}
 	case "microdot":
 		r.disp = &MicroDot{}
 	default:
