@@ -178,10 +178,26 @@ $ systemctl --user enable --now rpiclock.service
 
 #### Alpine
 
+You may already done this for the RTC, if not:
+
+```shell
+# mount -o remount,rw /media/mmcblk0p1
+# echo dtparam=i2c_arm=on >> /media/mmcblk0p1/usercfg.txt
+# echo i2c-dev >> /etc/modules
+# lbu ci -d
+```
+
+Setup NTP:
+
 ```shell
 # setup-ntp chrony
 # echo "allow 127.0.0.1" >> /etc/chrony/chrony.conf
 # echo "makestep 1.0 3" >> /etc/chrony/chrony.conf
+```
+
+RPIClock service:
+
+```shell
 # wget -O /sbin/rpiclock https://github.com/tenox7/rpiclock/releases/download/1.1/rpiclock
 # chmod 755 /sbin/rpiclock
 # lbu include /sbin/rpiclock
