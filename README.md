@@ -200,7 +200,7 @@ Setup NTP:
 RPIClock service:
 
 ```shell
-# wget -O /sbin/rpiclock https://github.com/tenox7/rpiclock/releases/download/1.1/rpiclock
+# wget -O /sbin/rpiclock https://github.com/tenox7/rpiclock/releases/download/1.2/rpiclock
 # chmod 755 /sbin/rpiclock
 # lbu include /sbin/rpiclock
 # wget -O /etc/init.d/rpiclock https://raw.githubusercontent.com/tenox7/rpiclock/refs/heads/main/rpiclock.openrc
@@ -211,7 +211,7 @@ RPIClock service:
 # lbu ci -d
 ```
 
-Once you're done with the setup, you can distribute ``/media/mmcblk0p1/hostname.apkovl.tar.gz` to other systems.
+Once you're done with the setup, you can distribute `/media/mmcblk0p1/hostname.apkovl.tar.gz` and `usercfg.txt` to other systems.
 
 ## References
 * [Adafruit Wiring and Setup](https://learn.adafruit.com/adafruit-led-backpack/python-wiring-and-setup-d74df15e-c55c-487a-acce-a905497ef9db)
