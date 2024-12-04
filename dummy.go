@@ -28,5 +28,5 @@ func (*DummyDisp) Close() {
 }
 
 func (d *DummyDisp) DispTime(h, m, s int, pm, syn bool) {
-	slog.Debug(fmt.Sprintf("%02d:%02d:%02d sync=%v pm=%v", h, m, s, syn, pm))
+	fmt.Printf("%02d:%02d:%02d sync=%v pm=%v\n", h, m, s, syn, pm)
 }
