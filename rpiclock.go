@@ -21,7 +21,7 @@ var (
 	hrDay  = flag.Int("hr_day", 6, "bright display / day start hour (24h)")
 	hrNite = flag.Int("hr_nite", 20, "dim display / nite start hour (24h)")
 	ntpq   = flag.Duration("ntpq", time.Minute, "ntp sync status query interval")
-	dspDrv = flag.String("disp", "sevensegment", "display driver: sevensegment|microdot")
+	dspDrv = flag.String("disp", "sevensegment", "display driver: sevensegment|microdot|dummy")
 	debug  = flag.Bool("debug", false, "debug logging")
 )
 
@@ -88,6 +88,8 @@ func main() {
 		r.disp = &SevenSeg{}
 	case "microdot":
 		r.disp = &MicroDot{}
+	case "dummy":
+		r.disp = &DummyDisp{}
 	default:
 		log.Fatalf("unsupported display driver: %v", *dspDrv)
 	}
